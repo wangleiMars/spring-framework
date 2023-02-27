@@ -46,7 +46,8 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
  * Creates {@link RequestMappingInfo} instances from type and method-level
  * {@link RequestMapping @RequestMapping} annotations in
  * {@link Controller @Controller} classes.
- *
+ * 从 @Controller 类中的类型和方法级 @RequestMapping 注释创建 RequestMappingInfo 实例；
+ * HandlerMapping 的实现类，它处理的是 @RequestMapping 注解，并将其注册到映射表中，即 url 对应的 Controller 的 方法
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -189,13 +190,14 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 		if (info != null) {
 			RequestMappingInfo typeInfo = createRequestMappingInfo(handlerType);
 			if (typeInfo != null) {
-				info = typeInfo.combine(info);
+				info = typeInfo.combine(info);//结合类上的 注解值
 			}
 		}
 		return info;
 	}
 
 	/**
+	 * 创建RequestMappingInfo
 	 * Delegates to {@link #createRequestMappingInfo(RequestMapping, RequestCondition)},
 	 * supplying the appropriate custom {@link RequestCondition} depending on whether
 	 * the supplied {@code annotatedElement} is a class or method.

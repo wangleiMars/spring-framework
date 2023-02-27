@@ -34,23 +34,26 @@ import org.springframework.util.StringUtils;
 public class XmlValidationModeDetector {
 
 	/**
-	 * Indicates that the validation should be disabled.
+	 * Indicates that the validation should be disabled. 指示应禁用验证。
 	 */
 	public static final int VALIDATION_NONE = 0;
 
 	/**
 	 * Indicates that the validation mode should be auto-guessed, since we cannot find
 	 * a clear indication (probably choked on some special characters, or the like).
+	 * 指示验证模式应该是自动猜测的，因为我们找不到一个明确的指示（可能被一些特殊的字符等卡住了）
 	 */
 	public static final int VALIDATION_AUTO = 1;
 
 	/**
 	 * Indicates that DTD validation should be used (we found a "DOCTYPE" declaration).
+	 * 指示应使用DTD验证（我们发现了一个“DOCTYPE”声明）。
 	 */
 	public static final int VALIDATION_DTD = 2;
 
 	/**
 	 * Indicates that XSD validation should be used (found no "DOCTYPE" declaration).
+	 * 指示应使用XSD验证（未找到“DOCTYPE”声明）。
 	 */
 	public static final int VALIDATION_XSD = 3;
 
@@ -58,6 +61,7 @@ public class XmlValidationModeDetector {
 	/**
 	 * The token in a XML document that declares the DTD to use for validation
 	 * and thus that DTD validation is being used.
+	 * XML文档中声明用于验证的DTD的标记从而使用DTD验证。
 	 */
 	private static final String DOCTYPE = "DOCTYPE";
 
@@ -74,11 +78,13 @@ public class XmlValidationModeDetector {
 
 	/**
 	 * Indicates whether or not the current parse position is inside an XML comment.
+	 * 指示当前分析位置是否在XML注释内。
 	 */
 	private boolean inComment;
 
 
 	/**
+	 * Spring用来检测验证模式的办法就是判断是否包含DOCTYPE，如果包含就是DTD，否则就是XSD。
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
 	 * Note that the supplied {@link InputStream} is closed by this method before returning.
 	 * @param inputStream the InputStream to parse
@@ -94,9 +100,11 @@ public class XmlValidationModeDetector {
 			String content;
 			while ((content = reader.readLine()) != null) {
 				content = consumeCommentTokens(content);
+				//如果是空行或者注释跳过
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
+				//读取到<开始符号，验证模式一定会在开始符号之前
 				if (hasDoctype(content)) {
 					isDtdValidated = true;
 					break;

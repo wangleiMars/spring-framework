@@ -80,8 +80,11 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		this.aspectJAdvisorsBuilder =
 				new BeanFactoryAspectJAdvisorsBuilderAdapter(beanFactory, this.aspectJAdvisorFactory);
 	}
-
-
+	
+	/**
+	 * 查询拦截器
+	 * @return
+	 */
 	@Override
 	protected List<Advisor> findCandidateAdvisors() {
 		// Add all the Spring advisors found according to superclass rules.
@@ -105,6 +108,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	}
 
 	/**
+	 * 检查给定的方面bean是否符合自动代理的条件。
 	 * Check whether the given aspect bean is eligible for auto-proxying.
 	 * <p>If no &lt;aop:include&gt; elements were used then "includePatterns" will be
 	 * {@code null} and all beans are included. If "includePatterns" is non-null,

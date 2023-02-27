@@ -49,7 +49,7 @@ import org.springframework.context.ApplicationContextException;
  * common {@link AbstractXmlApplicationContext} base class;
  * {@link org.springframework.context.annotation.AnnotationConfigApplicationContext}
  * supports {@code @Configuration}-annotated classes as a source of bean definitions.
- *
+ * 可刷新的
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.1.3
@@ -62,9 +62,15 @@ import org.springframework.context.ApplicationContextException;
  * @see org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
-
+	
+	/**
+	 * 是否允许覆盖同名称的不同定义的对象￼
+	 */
 	private Boolean allowBeanDefinitionOverriding;
-
+	
+	/**
+	 * 是否允许bean之间存在循环依赖￼
+	 */
 	private Boolean allowCircularReferences;
 
 	/** Bean factory for this context */
@@ -115,14 +121,22 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
-		if (hasBeanFactory()) {
+		if (hasBeanFactory()) {//为空情况下销毁
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			//创建DefaultListableBeanFactory
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			
+			//为了序列化指定id，如果需要的话,让这个BeanFactory从id反序列化到BeanFactory对象￼
 			beanFactory.setSerializationId(getId());
+			
+			//定制beanFactory，设置相关属性，包括是否允许覆盖同名称的不同定义的对象以及循环依赖以及￼
+			
 			customizeBeanFactory(beanFactory);
+			
+			//初始化DodumentReader，并进行XML文件读取及解析￼
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
@@ -208,9 +222,13 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+		//如果属性allowBeanDefinitionOverriding不为空，设置给beanFactory对象相应属性，￼
+		// 此属性的含义：是否允许覆盖同名称的不同定义的对象￼
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
+		//如果属性allowCircularReferences不为空，设置给beanFactory对象相应属性，￼
+		// 此属性的含义：是否允许bean之间存在循环依赖￼
 		if (this.allowCircularReferences != null) {
 			beanFactory.setAllowCircularReferences(this.allowCircularReferences);
 		}

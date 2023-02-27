@@ -31,19 +31,29 @@ public class MvcNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
+		// 注册 annotation-driven 标签的解析器 AnnotationDrivenBeanDefinitionParser，用来解析 Controller
 		registerBeanDefinitionParser("annotation-driven", new AnnotationDrivenBeanDefinitionParser());
+		// 注册 default-servlet-handler 标签的解析器 DefaultServletHandlerBeanDefinitionParser，用来解析静态资源文件（html、jsp、js和css等）
 		registerBeanDefinitionParser("default-servlet-handler", new DefaultServletHandlerBeanDefinitionParser());
+		// 注册 interceptors 标签的解析器 InterceptorsBeanDefinitionParser，用来解析拦截器
 		registerBeanDefinitionParser("interceptors", new InterceptorsBeanDefinitionParser());
+		// 注册 resources 标签的解析器 ResourcesBeanDefinitionParser，用来解析资源文件
 		registerBeanDefinitionParser("resources", new ResourcesBeanDefinitionParser());
+		// 注册 view-controller、redirect-view-controller、status-controller 标签的解析器 ViewControllerBeanDefinitionParser，用来解析视图view
 		registerBeanDefinitionParser("view-controller", new ViewControllerBeanDefinitionParser());
 		registerBeanDefinitionParser("redirect-view-controller", new ViewControllerBeanDefinitionParser());
 		registerBeanDefinitionParser("status-controller", new ViewControllerBeanDefinitionParser());
+		// 注册 view-resolvers 标签的解析器 ViewResolversBeanDefinitionParser，用来解析视图解析器
 		registerBeanDefinitionParser("view-resolvers", new ViewResolversBeanDefinitionParser());
 		registerBeanDefinitionParser("tiles-configurer", new TilesConfigurerBeanDefinitionParser());
+		// 注册 freemarker-configurer 标签的解析器 FreeMarkerConfigurerBeanDefinitionParser，用来解析 freemarker 配置
 		registerBeanDefinitionParser("freemarker-configurer", new FreeMarkerConfigurerBeanDefinitionParser());
 		registerBeanDefinitionParser("velocity-configurer", new VelocityConfigurerBeanDefinitionParser());
+		// 注册 groovy-configurer 标签的解析器 GroovyMarkupConfigurerBeanDefinitionParser，用来解析 groovy 配置
 		registerBeanDefinitionParser("groovy-configurer", new GroovyMarkupConfigurerBeanDefinitionParser());
+		// 注册 script-template-configurer 标签的解析器 ScriptTemplateConfigurerBeanDefinitionParser，用来解析 script 脚本模板配置
 		registerBeanDefinitionParser("script-template-configurer", new ScriptTemplateConfigurerBeanDefinitionParser());
+		// 注册 cors 标签的解析器 CorsBeanDefinitionParser，用来解析跨域
 		registerBeanDefinitionParser("cors", new CorsBeanDefinitionParser());
 	}
 

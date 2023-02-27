@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * <p>Note: Does not support {@code setThemeName}, as the fixed theme
  * cannot be changed.
- *
+ * 固定主题
  * @author Jean-Pierre Pawlak
  * @author Juergen Hoeller
  * @since 17.06.2003

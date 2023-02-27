@@ -46,7 +46,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
  * &lt;aop:advisor id=&quot;getNameAdvisor&quot;
  *     pointcut-ref=&quot;getNameCalls&quot;
  *     advice-ref=&quot;getNameCounter&quot;/&gt;</pre>
- *
+ * 创建一个Handler文件，扩展自NamespaceHandlerSupport，目的是将组件注册到Spring容器。
  * @author Rob Harrop
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -64,6 +64,13 @@ public class AopNamespaceHandler extends NamespaceHandlerSupport {
 		// In 2.0 XSD as well as in 2.5+ XSDs
 		registerBeanDefinitionParser("config", new ConfigBeanDefinitionParser());
 		registerBeanDefinitionParser("aspectj-autoproxy", new AspectJAutoProxyBeanDefinitionParser());
+		/**
+		 * Spring的Bean是有scope属性的，表示bean的生存周期。scope的值有prototype、singleton、session、request。
+		 * 那么就有个问题了，如果一个singleton的bean中引用了一个prototype的bean，结果会怎样呢？在默认情况下，
+		 * 单例会永远持有一开始构造所赋给它的值。所以，为了让我们在每次调用这个Bean的时候都能够得到具体scope中的值，比如prototype，
+		 * 那么我们希望每次在单例中调用这个Bean的时候，得到的都是一个新的prototype，Spring中AOP名字空间中引入了这个标签。
+		 * <aop:scoped-proxy/>。
+		 */
 		registerBeanDefinitionDecorator("scoped-proxy", new ScopedProxyBeanDefinitionDecorator());
 
 		// Only in 2.0 XSD: moved to context namespace in 2.5+

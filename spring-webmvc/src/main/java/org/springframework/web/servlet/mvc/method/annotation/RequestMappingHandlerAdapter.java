@@ -106,7 +106,9 @@ import org.springframework.web.util.WebUtils;
  * {@link #setCustomArgumentResolvers} and {@link #setCustomReturnValueHandlers}.
  * Or alternatively, to re-configure all argument and return value types,
  * use {@link #setArgumentResolvers} and {@link #setReturnValueHandlers}.
- *
+ *  InitializingBean 的 afterPropertiesSet 回调完成了 ArgumentResolver 和 ReturnValueHandler 的初始化工作，
+ *  其中前两个 Resolver 主要是用于解析方法的参数，而最后的 ReturnValueHandler 主要是用于返回值的处理。而 BeanFactoryAware 接口主要是用于获取到当前容器中的 BeanFactory 。
+ *   HandlerAdapter 的实现类，它是处理请求的适配器，就是确定调用哪个 Controller 的 哪个方法
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
  * @author Sam Brannen

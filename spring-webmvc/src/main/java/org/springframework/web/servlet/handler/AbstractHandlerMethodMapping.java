@@ -50,7 +50,7 @@ import org.springframework.web.servlet.HandlerMapping;
  *
  * <p>For each registered handler method, a unique mapping is maintained with
  * subclasses defining the details of the mapping type {@code <T>}.
- *
+ * 实现了 InitializingBean 接口，开始支持干预 Bean 的初始化过程；
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -61,6 +61,7 @@ import org.springframework.web.servlet.HandlerMapping;
 public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMapping implements InitializingBean {
 
 	/**
+	 * 作用域代理后面的目标Bean的Bean名称前缀
 	 * Bean name prefix for target beans behind scoped proxies. Used to exclude those
 	 * targets from handler method detection, in favor of the corresponding proxies.
 	 * <p>We're not checking the autowire-candidate status here, which is how the
@@ -186,7 +187,8 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 
 	/**
 	 * Scan beans in the ApplicationContext, detect and register handler methods.
-	 * @see #isHandler(Class)
+	 * 扫描ApplicationContext中的bean，检测并注册处理程序方法。
+	 * @see #isHandler(Class) 子类实现
 	 * @see #getMappingForMethod(Method, Class)
 	 * @see #handlerMethodsInitialized(Map)
 	 */
@@ -199,7 +201,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 				getApplicationContext().getBeanNamesForType(Object.class));
 
 		for (String beanName : beanNames) {
-			if (!beanName.startsWith(SCOPED_TARGET_NAME_PREFIX)) {
+			if (!beanName.startsWith(SCOPED_TARGET_NAME_PREFIX)) {//判断是否为aop代理对象
 				Class<?> beanType = null;
 				try {
 					beanType = getApplicationContext().getType(beanName);
@@ -219,6 +221,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	}
 
 	/**
+	 * 在处理程序中查找处理程序方法。
 	 * Look for handler methods in a handler.
 	 * @param handler the bean name of a handler or a handler instance
 	 */
@@ -232,7 +235,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 					@Override
 					public T inspect(Method method) {
 						try {
-							return getMappingForMethod(method, userType);
+							return getMappingForMethod(method, userType);//获取注解@RequestMapping的数据并封装到RequestMappingInfo对象的方法中去
 						}
 						catch (Throwable ex) {
 							throw new IllegalStateException("Invalid mapping on handler class [" +

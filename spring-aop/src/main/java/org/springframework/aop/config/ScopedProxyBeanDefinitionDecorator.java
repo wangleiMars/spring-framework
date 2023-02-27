@@ -49,8 +49,8 @@ class ScopedProxyBeanDefinitionDecorator implements BeanDefinitionDecorator {
 			}
 		}
 
-		// Register the original bean definition as it will be referenced by the scoped proxy
-		// and is relevant for tooling (validation, navigation).
+		// Register the original bean definition as it will be referenced by the scoped proxy 注册原始bean定义，因为它将被作用域代理引用
+		// and is relevant for tooling (validation, navigation). 并且与工具（验证、导航）相关。
 		BeanDefinitionHolder holder =
 				ScopedProxyUtils.createScopedProxy(definition, parserContext.getRegistry(), proxyTargetClass);
 		String targetBeanName = ScopedProxyUtils.getTargetBeanName(definition.getBeanName());

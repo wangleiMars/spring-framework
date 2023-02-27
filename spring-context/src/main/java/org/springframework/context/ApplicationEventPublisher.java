@@ -40,6 +40,9 @@ public interface ApplicationEventPublisher {
 	void publishEvent(ApplicationEvent event);
 
 	/**
+	 * 将一个事件通知所有注册到此应用程序的 匹配侦听器。
+	 * 如果指定event的不是ApplicationEvent，则将其包装在 中PayloadApplicationEvent。
+	 * 这样的事件发布步骤实际上是对多播器的切换，并不意味着同步/异步执行或什至根本不立即执行。鼓励事件侦听器尽可能高效，单独使用异步执行来执行长时间运行和可能阻塞的操作。
 	 * Notify all <strong>matching</strong> listeners registered with this
 	 * application of an event.
 	 * <p>If the specified {@code event} is not an {@link ApplicationEvent},

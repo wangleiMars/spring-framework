@@ -38,6 +38,7 @@ public interface MessageSourceResolvable {
 
 	/**
 	 * Return the array of arguments to be used to resolve this message.
+	 * 返回用于解析此消息的参数数组。
 	 * @return an array of objects to be used as parameters to replace
 	 * placeholders within the message text
 	 * @see java.text.MessageFormat

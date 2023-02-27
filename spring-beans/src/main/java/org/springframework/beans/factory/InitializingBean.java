@@ -34,6 +34,9 @@ package org.springframework.beans.factory;
 public interface InitializingBean {
 
 	/**
+	 * bean是实现了InitializingBean接口，并且同时配置文件中指定了init-method，系统则是先调用afterPropertiesSet方法，然后在调用init-method中指定的方法。
+	 * BeanFactory在设置所有 bean 属性并满足等之后BeanFactoryAware由包含调用ApplicationContextAware。
+	 * 此方法允许 bean 实例在设置所有 bean 属性后执行其整体配置和最终初始化的验证。
 	 * Invoked by the containing {@code BeanFactory} after it has set all bean properties
 	 * and satisfied {@link BeanFactoryAware}, {@code ApplicationContextAware} etc.
 	 * <p>This method allows the bean instance to perform validation of its overall

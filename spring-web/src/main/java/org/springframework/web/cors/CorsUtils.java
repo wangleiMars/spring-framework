@@ -24,7 +24,7 @@ import org.springframework.http.HttpMethod;
 /**
  * Utility class for CORS request handling based on the
  * <a href="https://www.w3.org/TR/cors/">CORS W3C recommendation</a>.
- *
+ *  跨域资源共享
  * @author Sebastien Deleuze
  * @since 4.2
  */

@@ -265,6 +265,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 			String propertyName = pv.getName();
 			AbstractNestablePropertyAccessor nestedPa;
 			try {
+				//根据属性名获取BeanWrapImpl对象，支持多重属性的递归分析处理
 				nestedPa = getPropertyAccessorForPropertyPath(propertyName);
 			}
 			catch (NotReadablePropertyException ex) {
@@ -272,6 +273,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 						"Nested property in path '" + propertyName + "' does not exist", ex);
 			}
 			tokens = getPropertyNameTokens(getFinalPath(nestedPa, propertyName));
+			//如果nestedBw等于this,则设置resolvedTokens属性值为tokens
 			if (nestedPa == this) {
 				pv.getOriginalPropertyValue().resolvedTokens = tokens;
 			}
@@ -819,12 +821,17 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	 * @return a property accessor for the target bean
 	 */
 	protected AbstractNestablePropertyAccessor getPropertyAccessorForPropertyPath(String propertyPath) {
+		//根据属性路径获取其第一个属性分隔符.的下标
 		int pos = PropertyAccessorUtils.getFirstNestedPropertySeparatorIndex(propertyPath);
+		//如果找到，则表示是有多重属性递归处理
 		// Handle nested properties recursively.
 		if (pos > -1) {
+			//获取第一个属性分隔符前面的属性名称
 			String nestedProperty = propertyPath.substring(0, pos);
 			String nestedPath = propertyPath.substring(pos + 1);
+			//获取第一个属性片断的BeanWrapperImpl对象nestedBw
 			AbstractNestablePropertyAccessor nestedPa = getNestedPropertyAccessor(nestedProperty);
+			//调用nestedBw的getBeanWrapperForPropertyPath方法，对第一个属性分隔符后面的属性字符串进行处理
 			return nestedPa.getPropertyAccessorForPropertyPath(nestedPath);
 		}
 		else {
@@ -935,6 +942,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	}
 
 	/**
+	 * 方法内部用于对属性名全路径中最后一个.后的属性名称分析，返回PropertyTokenHolder对象。
 	 * Parse the given property name into the corresponding property name tokens.
 	 * @param propertyName the property name to parse
 	 * @return representation of the parsed property tokens

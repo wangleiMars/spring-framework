@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
  * {@link FileSystemXmlApplicationContext}, as well as
  * {@link org.springframework.web.context.support.XmlWebApplicationContext} and
  * {@link org.springframework.web.portlet.context.XmlPortletApplicationContext}.
- *
+ * 可刷新配置的
  * @author Juergen Hoeller
  * @since 2.5.2
  * @see #setConfigLocation
@@ -77,6 +77,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 			Assert.noNullElements(locations, "Config locations must not be null");
 			this.configLocations = new String[locations.length];
 			for (int i = 0; i < locations.length; i++) {
+				//解析给定路径￼
 				this.configLocations[i] = resolvePath(locations[i]).trim();
 			}
 		}
@@ -142,7 +143,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	}
 
 	/**
-	 * Triggers {@link #refresh()} if not refreshed in the concrete context's
+	 * Triggers {@link #refresh()} if not refreshed in the concrete context's 如果未在具体上下文中刷新，则触发｛@link#refresh（）｝
 	 * constructor already.
 	 */
 	@Override

@@ -24,7 +24,7 @@ import org.springframework.core.convert.ConversionService;
  * for PropertyEditor management.
  *
  * <p>Serves as base interface for {@link BeanWrapper}.
- *
+ * 可配置的属性访问器
  * @author Juergen Hoeller
  * @author Stephane Nicoll
  * @since 2.0
@@ -33,6 +33,7 @@ import org.springframework.core.convert.ConversionService;
 public interface ConfigurablePropertyAccessor extends PropertyAccessor, PropertyEditorRegistry, TypeConverter {
 
 	/**
+	 *
 	 * Specify a Spring 3.0 ConversionService to use for converting
 	 * property values, as an alternative to JavaBeans PropertyEditors.
 	 */
@@ -56,6 +57,7 @@ public interface ConfigurablePropertyAccessor extends PropertyAccessor, Property
 	boolean isExtractOldValueForEditor();
 
 	/**
+	 * 设置此实例是否应尝试“自动增长”
 	 * Set whether this instance should attempt to "auto-grow" a
 	 * nested path that contains a {@code null} value.
 	 * <p>If {@code true}, a {@code null} path location will be populated

@@ -155,6 +155,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 	}
 
 	/**
+	 * DispatcherServlet拦截请求匹配
 	 * Specify the servlet mapping(s) for the {@code DispatcherServlet} &mdash;
 	 * for example {@code "/"}, {@code "/app"}, etc.
 	 * @see #registerDispatcherServlet(ServletContext)

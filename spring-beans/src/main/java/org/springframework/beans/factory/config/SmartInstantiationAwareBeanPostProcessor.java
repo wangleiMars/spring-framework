@@ -37,6 +37,10 @@ import org.springframework.beans.BeansException;
 public interface SmartInstantiationAwareBeanPostProcessor extends InstantiationAwareBeanPostProcessor {
 
 	/**
+	 * 预测Bean类型
+	 * 预测最终从此处理器的
+	 * InstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation(java.lang.Class<?>, java.lang.String)
+	 * 回调中返回的 bean 的类型。
 	 * Predict the type of the bean to be eventually returned from this
 	 * processor's {@link #postProcessBeforeInstantiation} callback.
 	 * @param beanClass the raw class of the bean
@@ -47,6 +51,7 @@ public interface SmartInstantiationAwareBeanPostProcessor extends InstantiationA
 	Class<?> predictBeanType(Class<?> beanClass, String beanName) throws BeansException;
 
 	/**
+	 * 确定要用于给定bean的候选构造函数。
 	 * Determine the candidate constructors to use for the given bean.
 	 * @param beanClass the raw class of the bean (never {@code null})
 	 * @param beanName the name of the bean
@@ -56,6 +61,7 @@ public interface SmartInstantiationAwareBeanPostProcessor extends InstantiationA
 	Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException;
 
 	/**
+	 * 获取对指定 bean 的早期访问的引用，通常是为了解决循环引用。
 	 * Obtain a reference for early access to the specified bean,
 	 * typically for the purpose of resolving a circular reference.
 	 * <p>This callback gives post-processors a chance to expose a wrapper

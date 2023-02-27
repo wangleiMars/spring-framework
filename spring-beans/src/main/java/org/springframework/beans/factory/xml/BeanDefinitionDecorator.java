@@ -58,6 +58,7 @@ import org.springframework.beans.factory.config.BeanDefinitionHolder;
 public interface BeanDefinitionDecorator {
 
 	/**
+	 * 装饰
 	 * Parse the specified {@link Node} (either an element or an attribute) and decorate
 	 * the supplied {@link org.springframework.beans.factory.config.BeanDefinition},
 	 * returning the decorated definition.

@@ -90,6 +90,7 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 			fail("Should have thrown BeanCreationException");
 		}
 		catch (BeanCreationException ex) {
+			ex.printStackTrace();
 			assertTrue(ex.getRootCause() instanceof IllegalStateException);
 		}
 	}
@@ -104,9 +105,11 @@ public class AutowiredAnnotationBeanPostProcessorTests {
 		bd.setScope(RootBeanDefinition.SCOPE_PROTOTYPE);
 		bf.registerBeanDefinition("annotatedBean", bd);
 		TestBean tb = new TestBean();
+		tb.setAge(2);
 		bf.registerSingleton("testBean", tb);
 
 		ResourceInjectionBean bean = (ResourceInjectionBean) bf.getBean("annotatedBean");
+		System.out.println(bean);
 		assertSame(tb, bean.getTestBean());
 		assertSame(tb, bean.getTestBean2());
 

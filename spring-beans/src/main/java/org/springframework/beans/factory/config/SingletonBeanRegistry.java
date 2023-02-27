@@ -29,10 +29,12 @@ package org.springframework.beans.factory.config;
  * @see ConfigurableBeanFactory
  * @see org.springframework.beans.factory.support.DefaultSingletonBeanRegistry
  * @see org.springframework.beans.factory.support.AbstractBeanFactory
+ * 定义对单例的注册及获取。
  */
 public interface SingletonBeanRegistry {
 
 	/**
+	 * 单利bean注册
 	 * Register the given existing object as singleton in the bean registry,
 	 * under the given bean name.
 	 * <p>The given instance is supposed to be fully initialized; the registry
@@ -56,6 +58,7 @@ public interface SingletonBeanRegistry {
 	void registerSingleton(String beanName, Object singletonObject);
 
 	/**
+	 * 根据名称获取bean
 	 * Return the (raw) singleton object registered under the given name.
 	 * <p>Only checks already instantiated singletons; does not return an Object
 	 * for singleton bean definitions which have not been instantiated yet.
@@ -123,6 +126,7 @@ public interface SingletonBeanRegistry {
 	int getSingletonCount();
 
 	/**
+	 * 暴露所有的 singletonObjects 给外部
 	 * Return the singleton mutex used by this registry (for external collaborators).
 	 * @return the mutex object (never {@code null})
 	 * @since 4.2

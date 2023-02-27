@@ -42,6 +42,7 @@ import org.springframework.core.io.ProtocolResolver;
 public interface ConfigurableApplicationContext extends ApplicationContext, Lifecycle, Closeable {
 
 	/**
+	 * 这些字符中的任意数量都被视为单个字符串值中多个上下文配置路径之间的分隔符。
 	 * Any number of these characters are considered delimiters between
 	 * multiple context config paths in a single String value.
 	 * @see org.springframework.context.support.AbstractXmlApplicationContext#setConfigLocation
@@ -51,6 +52,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	String CONFIG_LOCATION_DELIMITERS = ",; \t\n";
 
 	/**
+	 * 工厂中 ConversionService bean 的名称。
 	 * Name of the ConversionService bean in the factory.
 	 * If none is supplied, default conversion rules apply.
 	 * @since 3.0

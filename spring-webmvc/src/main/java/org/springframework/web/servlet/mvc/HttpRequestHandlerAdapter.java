@@ -29,7 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
  * Supports handlers that implement the {@link LastModified} interface.
  *
  * <p>This is an SPI class, not used directly by application code.
- *
+ * HTTP请求处理器适配器仅仅支持对HTTP请求处理器的适配。
+ * 它简单地将HTTP请求对象和响应对象传递给HTTP请求处理器的实现，
+ * 它并不需要返回值。它主要应用在基于HTTP的远程调用的实现上。
  * @author Juergen Hoeller
  * @since 2.0
  * @see org.springframework.web.servlet.DispatcherServlet

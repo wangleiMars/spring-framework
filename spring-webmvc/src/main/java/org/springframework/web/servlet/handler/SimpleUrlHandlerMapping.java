@@ -45,7 +45,7 @@ import org.springframework.util.CollectionUtils;
  * is to map within the current servlet mapping if applicable; see the
  * {@link #setAlwaysUseFullPath "alwaysUseFullPath"} property. For details on the
  * pattern options, see the {@link org.springframework.util.AntPathMatcher} javadoc.
-
+ * HandlerMapping 接口的实现，该接口从 url 映射到请求处理程序 Bean，支持映射到 Bean 实例和映射到 Bean 名称，非单例处理程序需要后者；
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see #setMappings

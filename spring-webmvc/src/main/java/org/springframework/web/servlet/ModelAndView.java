@@ -218,6 +218,7 @@ public class ModelAndView {
 	}
 
 	/**
+	 * 返回是否使用视图引用
 	 * Return whether we use a view reference, i.e. {@code true}
 	 * if the view has been specified via a name to be resolved by the
 	 * DispatcherServlet via a ViewResolver.

@@ -35,7 +35,10 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 	private String autowire;
 
 	private String dependencyCheck;
-
+	
+	/**
+	 * 自动连线候选
+	 */
 	private String autowireCandidates;
 
 	private String initMethod;

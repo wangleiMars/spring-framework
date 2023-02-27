@@ -87,6 +87,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	/**
 	 * We need to detect this as "code-style" AspectJ aspects should not be
 	 * interpreted by Spring AOP.
+	 * 我们需要检测这一点，因为“代码样式”AspectJ方面不应该是由Spring AOP解释。
 	 */
 	private boolean compiledByAjc(Class<?> clazz) {
 		// The AJTypeSystem goes to great lengths to provide a uniform appearance between code-style and
@@ -129,6 +130,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	 */
 	@SuppressWarnings("unchecked")
 	protected static AspectJAnnotation<?> findAspectJAnnotationOnMethod(Method method) {
+		//设置敏感的注解类
 		for (Class<?> clazz : ASPECTJ_ANNOTATION_CLASSES) {
 			AspectJAnnotation<?> foundAnnotation = findAnnotation(method, (Class<Annotation>) clazz);
 			if (foundAnnotation != null) {
@@ -137,7 +139,8 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 		}
 		return null;
 	}
-
+	
+	//获取指定方法上的注解并使用AspectJAnnotation封装￼
 	private static <A extends Annotation> AspectJAnnotation<A> findAnnotation(Method method, Class<A> toLookFor) {
 		A result = AnnotationUtils.findAnnotation(method, toLookFor);
 		if (result != null) {

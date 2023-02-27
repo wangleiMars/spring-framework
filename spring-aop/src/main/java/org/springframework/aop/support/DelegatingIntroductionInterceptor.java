@@ -88,7 +88,7 @@ public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport
 		this.delegate = delegate;
 		implementInterfacesOnObject(delegate);
 
-		// We don't want to expose the control interface
+		// We don't want to expose the control interface 不想公开控件接口
 		suppressInterface(IntroductionInterceptor.class);
 		suppressInterface(DynamicIntroductionAdvice.class);
 	}

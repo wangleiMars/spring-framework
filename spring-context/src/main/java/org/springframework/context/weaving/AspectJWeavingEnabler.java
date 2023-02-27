@@ -86,6 +86,7 @@ public class AspectJWeavingEnabler
 				throw new IllegalStateException("No LoadTimeWeaver available");
 			}
 		}
+		//使用DefaultContextLoadTimeWeaver类型的bean中的loadTimeWeaver属性注册转换器￼
 		weaverToUse.addTransformer(
 				new AspectJClassBypassingClassFileTransformer(new ClassPreProcessorAgentAdapter()));
 	}
@@ -111,6 +112,7 @@ public class AspectJWeavingEnabler
 			if (className.startsWith("org.aspectj") || className.startsWith("org/aspectj")) {
 				return classfileBuffer;
 			}
+			//委托给AspectJ代理继续处理￼
 			return this.delegate.transform(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
 		}
 	}

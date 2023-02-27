@@ -46,6 +46,7 @@ import org.springframework.util.StringValueResolver;
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.beans.factory.ListableBeanFactory
  * @see ConfigurableListableBeanFactory
+ * 提供配置Factory的各种方法。
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
@@ -65,6 +66,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 
 	/**
+	 * 父工厂
 	 * Set the parent of this bean factory.
 	 * <p>Note that the parent cannot be changed: It should only be set outside
 	 * a constructor if it isn't available at the time of factory instantiation.
@@ -76,6 +78,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	void setParentBeanFactory(BeanFactory parentBeanFactory) throws IllegalStateException;
 
 	/**
+	 * ClassLoader
 	 * Set the class loader to use for loading bean classes.
 	 * Default is the thread context class loader.
 	 * <p>Note that this class loader will only apply to bean definitions
@@ -93,6 +96,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	ClassLoader getBeanClassLoader();
 
 	/**
+	 * 指定用于类型匹配目的的临时ClassLoader。
 	 * Specify a temporary ClassLoader to use for type matching purposes.
 	 * Default is none, simply using the standard bean ClassLoader.
 	 * <p>A temporary ClassLoader is usually just specified if
@@ -111,6 +115,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	ClassLoader getTempClassLoader();
 
 	/**
+	 * 缓存
 	 * Set whether to cache bean metadata such as given bean definitions
 	 * (in merged fashion) and resolved bean classes. Default is on.
 	 * <p>Turn this flag off to enable hot-refreshing of bean definition objects
@@ -126,6 +131,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	boolean isCacheBeanMetadata();
 
 	/**
+	 * Spring el 表达式解析器
 	 * Specify the resolution strategy for expressions in bean definition values.
 	 * <p>There is no expression support active in a BeanFactory by default.
 	 * An ApplicationContext will typically set a standard expression strategy
@@ -141,6 +147,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	BeanExpressionResolver getBeanExpressionResolver();
 
 	/**
+	 * ConversionService  类型转换
 	 * Specify a Spring 3.0 ConversionService to use for converting
 	 * property values, as an alternative to JavaBeans PropertyEditors.
 	 * @since 3.0
@@ -154,6 +161,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	ConversionService getConversionService();
 
 	/**
+	 * PropertyEditor 类型转换
 	 * Add a PropertyEditorRegistrar to be applied to all bean creation processes.
 	 * <p>Such a registrar creates new PropertyEditor instances and registers them
 	 * on the given registry, fresh for each bean creation attempt. This avoids
@@ -183,6 +191,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	void copyRegisteredEditorsTo(PropertyEditorRegistry registry);
 
 	/**
+	 * 类型转换
 	 * Set a custom type converter that this BeanFactory should use for converting
 	 * bean property values, constructor argument values, etc.
 	 * <p>This will override the default PropertyEditor mechanism and hence make
@@ -203,6 +212,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	TypeConverter getTypeConverter();
 
 	/**
+	 * ${key} 占位符解析
 	 * Add a String resolver for embedded values such as annotation attributes.
 	 * @param valueResolver the String resolver to apply to embedded values
 	 * @since 3.0
@@ -225,6 +235,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	String resolveEmbeddedValue(String value);
 
 	/**
+	 * 后置处理器
 	 * Add a new BeanPostProcessor that will get applied to beans created
 	 * by this factory. To be invoked during factory configuration.
 	 * <p>Note: Post-processors submitted here will be applied in the order of
@@ -275,6 +286,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	AccessControlContext getAccessControlContext();
 
 	/**
+	 * copy 配置
 	 * Copy all relevant configuration from the given other factory.
 	 * <p>Should include all standard configuration settings as well as
 	 * BeanPostProcessors, Scopes, and factory-specific internal settings.
@@ -285,6 +297,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	void copyConfigurationFrom(ConfigurableBeanFactory otherFactory);
 
 	/**
+	 * bean 别名注册
 	 * Given a bean name, create an alias. We typically use this method to
 	 * support names that are illegal within XML ids (used for bean names).
 	 * <p>Typically invoked during factory configuration, but can also be
@@ -328,6 +341,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	boolean isFactoryBean(String name) throws NoSuchBeanDefinitionException;
 
 	/**
+	 * bean 创建状态
 	 * Explicitly control the current in-creation status of the specified bean.
 	 * For container-internal use only.
 	 * @param beanName the name of the bean
@@ -338,6 +352,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 	/**
 	 * Determine whether the specified bean is currently in creation.
+	 * 确定指定的bean当前是否正在创建中。
 	 * @param beanName the name of the bean
 	 * @return whether the bean is currently in creation
 	 * @since 2.5
@@ -345,6 +360,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	boolean isCurrentlyInCreation(String beanName);
 
 	/**
+	 * 注册依赖
 	 * Register a dependent bean for the given bean,
 	 * to be destroyed before the given bean is destroyed.
 	 * @param beanName the name of the bean

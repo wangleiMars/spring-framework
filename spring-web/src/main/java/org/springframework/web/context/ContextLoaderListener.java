@@ -101,6 +101,7 @@ public class ContextLoaderListener extends ContextLoader implements ServletConte
 
 	/**
 	 * Initialize the root web application context.
+	 * //该方法在ServletContext启动之后被调用，并准备好处理客户端请求
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
@@ -110,6 +111,7 @@ public class ContextLoaderListener extends ContextLoader implements ServletConte
 
 	/**
 	 * Close the root web application context.
+	 * //这个方法在ServletContext将要关闭的时候调用￼
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {

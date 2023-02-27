@@ -54,12 +54,17 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		implements FactoryBean<Object>, BeanFactoryAware, AopInfrastructureBean {
 
 	/** The TargetSource that manages scoping */
+	//定义一个新的SimpleBeanTargetSource对象，该对象包含beanFactory和targetBeanName对象。
+	//实际上代理在调用MyTestBean的任意方法时,会从该对象的的beanFactory中重新获取targetBeanName的对象，
+	// 即我们的scope为prototype的MyTestBean实例。这样就保证了每一次使用时都是一个新的MyTestBean实例
 	private final SimpleBeanTargetSource scopedTargetSource = new SimpleBeanTargetSource();
 
 	/** The name of the target bean */
+	//再注册该bean声明时，添加了该属性的值，这里为“scopedTarget.myTestBean”
 	private String targetBeanName;
 
 	/** The cached singleton proxy */
+	//最终的生成的代理对象
 	private Object proxy;
 
 
@@ -73,6 +78,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 
 	/**
 	 * Set the name of the bean that is to be scoped.
+	 * //注入targetBeanName，这里为“scopedTarget.myTestBean”
 	 */
 	public void setTargetBeanName(String targetBeanName) {
 		this.targetBeanName = targetBeanName;
@@ -87,7 +93,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		ConfigurableBeanFactory cbf = (ConfigurableBeanFactory) beanFactory;
 
 		this.scopedTargetSource.setBeanFactory(beanFactory);
-
+		//新建一个代理工厂
 		ProxyFactory pf = new ProxyFactory();
 		pf.copyFrom(this);
 		pf.setTargetSource(this.scopedTargetSource);
@@ -103,16 +109,18 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 
 		// Add an introduction that implements only the methods on ScopedObject.
 		ScopedObject scopedObject = new DefaultScopedObject(cbf, this.scopedTargetSource.getTargetBeanName());
+		//代理工厂设置Advice通知
 		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));
 
 		// Add the AopInfrastructureBean marker to indicate that the scoped proxy
 		// itself is not subject to auto-proxying! Only its target bean is.
 		pf.addInterface(AopInfrastructureBean.class);
-
+		//生成代理对象
 		this.proxy = pf.getProxy(cbf.getBeanClassLoader());
 	}
-
-
+	
+	//实现了FactoryBean接口，spring获取该对象实例时会调用该接口的getObject()
+	//这里将代理对象proxy对象返回
 	@Override
 	public Object getObject() {
 		if (this.proxy == null) {

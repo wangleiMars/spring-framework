@@ -303,6 +303,7 @@ import org.springframework.core.annotation.AliasFor;
 public @interface RequestMapping {
 
 	/**
+	 * 请求映射别名
 	 * Assign a name to this mapping.
 	 * <p><b>Supported at the type level as well as at the method level!</b>
 	 * When used on both levels, a combined name is derived by concatenation
@@ -313,6 +314,9 @@ public @interface RequestMapping {
 	String name() default "";
 
 	/**
+	 * url映射路径，等价于value属性
+	 * 数组类型，同一个控制器支持多个路由请求
+	 * 支持ant风格和通配符表达式
 	 * The primary mapping expressed by this annotation.
 	 * <p>In a Servlet environment this is an alias for {@link #path}.
 	 * For example {@code @RequestMapping("/foo")} is equivalent to
@@ -342,6 +346,8 @@ public @interface RequestMapping {
 	String[] path() default {};
 
 	/**
+	 * Http请求方法，支持GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE请求
+	 * 默认请求方法是GET请求,同时可以支持多个请求类型
 	 * The HTTP request methods to map to, narrowing the primary mapping:
 	 * GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE.
 	 * <p><b>Supported at the type level as well as at the method level!</b>
@@ -353,6 +359,8 @@ public @interface RequestMapping {
 	RequestMethod[] method() default {};
 
 	/**
+	 *  此属性可以指定同一个URL路由由多个控制器来处理，而参数的值不同，每个控制器可以根据
+	 *  不同的参数值来处理请求
 	 * The parameters of the mapped request, narrowing the primary mapping.
 	 * <p>Same format for any environment: a sequence of "myParam=myValue" style
 	 * expressions, with a request only mapped if each such parameter is found
@@ -377,6 +385,7 @@ public @interface RequestMapping {
 	String[] params() default {};
 
 	/**
+	 * 请求头中必须包含指定的参数才可以处理请求
 	 * The headers of the mapped request, narrowing the primary mapping.
 	 * <p>Same format for any environment: a sequence of "My-Header=myValue" style
 	 * expressions, with a request only mapped if each such header is found
@@ -402,6 +411,11 @@ public @interface RequestMapping {
 	String[] headers() default {};
 
 	/**
+	 * 匹配请求Content-Type的媒体类型，示例如下：
+	 * 	 * consumes = "text/plain"
+	 * 	 * consumes = {"text/plain", "application/*"}
+	 * 	 * consumes = MediaType.TEXT_PLAIN_VALUE
+	 * 	 * 也可以使用!来表示非
 	 * The consumable media types of the mapped request, narrowing the primary mapping.
 	 * <p>The format is a single media type or a sequence of media types,
 	 * with a request only mapped if the {@code Content-Type} matches one of these media types.
@@ -421,6 +435,12 @@ public @interface RequestMapping {
 	String[] consumes() default {};
 
 	/**
+	 * 定义控制器处理程序生成的数据媒体类型，示例如下：
+	 * 	 * produces = "text/plain"
+	 * 	 * produces = {"text/plain", "application/*"}
+	 * 	 * produces = MediaType.TEXT_PLAIN_VALUE
+	 * 	 * produces = "text/plain;charset=UTF-8"
+	 * 	 * 也可以使用!来表示非
 	 * The producible media types of the mapped request, narrowing the primary mapping.
 	 * <p>The format is a single media type or a sequence of media types,
 	 * with a request only mapped if the {@code Accept} matches one of these media types.

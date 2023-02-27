@@ -19,6 +19,7 @@ package org.springframework.aop.framework.autoproxy;
 import org.springframework.aop.TargetSource;
 
 /**
+ * 在bean实例化之前，就为类生成代理。
  * Implementations can create special target sources, such as pooling target
  * sources, for particular beans. For example, they may base their choice
  * on attributes, such as a pooling attribute, on the target class.

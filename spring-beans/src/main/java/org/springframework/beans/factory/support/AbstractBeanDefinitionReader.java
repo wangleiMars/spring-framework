@@ -38,7 +38,7 @@ import org.springframework.util.Assert;
  *
  * <p>Provides common properties like the bean factory to work on
  * and the class loader to use for loading bean classes.
- *
+ * 对EnvironmentCapable、BeanDefinitionReader类定义的功能进行实现。
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 11.12.2003
@@ -48,15 +48,21 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	
+	/**
+	 * beanfactory
+	 */
 	private final BeanDefinitionRegistry registry;
-
+	
+	/**
+	 * 定义资源加载器，主要应用于根据给定的资源文件地址返回对应的Resource。
+	 */
 	private ResourceLoader resourceLoader;
 
 	private ClassLoader beanClassLoader;
 
 	private Environment environment;
-
+	/** beanName生成器 */
 	private BeanNameGenerator beanNameGenerator = new DefaultBeanNameGenerator();
 
 

@@ -33,7 +33,9 @@ import org.springframework.web.servlet.LocaleResolver;
  *
  * <p>Note: Does not support {@code setLocale}, since the accept header
  * can only be changed through changing the client's locale settings.
- *
+ *  通过URL参数来控制国际化，比如你在页面上加一句<a href="?locale=zh_CN">简体中文</a>
+ *  来控制项目中使用的国际化参数。而提供这个功能的就是AcceptHeaderLocaleResolver，默认的参数名为locale，
+ *  注意大小写。里面放的就是你的提交参数，比如en_US、zh_CN之类的
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
  * @since 27.02.2003

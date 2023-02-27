@@ -39,7 +39,7 @@ import org.springframework.context.ApplicationContextException;
  *
  * <p>Many framework classes are derived from this class, particularly
  * within the web support.
- *
+ * 实现了 ApplicationContextAware 接口，开始支持运行过程中获取 Spring 容器；
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see org.springframework.web.context.support.WebApplicationObjectSupport

@@ -46,6 +46,7 @@ import org.springframework.beans.PropertyValues;
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
 	/**
+	 * 在通过构造函数或工厂方法实例化 bean 之后，但在 Spring 属性填充（来自显式属性或自动装配）发生之前执行操作。
 	 * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
 	 * The returned bean object may be a proxy to use instead of the target bean,
 	 * effectively suppressing default instantiation of the target bean.
@@ -71,6 +72,8 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
 
 	/**
+	 * 在bean实例化后，通过构造函数或工厂方法执行操作，
+	 * 但在Spring属性填充（从显式属性或自动布线）发生之前。
 	 * Perform operations after the bean has been instantiated, via a constructor or factory method,
 	 * but before Spring property population (from explicit properties or autowiring) occurs.
 	 * <p>This is the ideal callback for performing custom field injection on the given bean
@@ -87,6 +90,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException;
 
 	/**
+	 * 在工厂将给定的属性值应用于给定的 bean 之前对给定的属性值进行后处理，而不需要任何属性描述符。
 	 * Post-process the given property values before the factory applies them
 	 * to the given bean. Allows for checking whether all dependencies have been
 	 * satisfied, for example based on a "Required" annotation on bean property setters.

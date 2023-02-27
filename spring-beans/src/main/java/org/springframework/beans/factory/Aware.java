@@ -17,6 +17,8 @@
 package org.springframework.beans.factory;
 
 /**
+ * 一个标记超级接口，指示一个 bean 有资格通过回调样式的方法被特定框架对象的 Spring 容器通知。
+ * 实际的方法签名由各个子接口确定，但通常应该只包含一个接受单个参数的返回 void 的方法。
  * A marker superinterface indicating that a bean is eligible to be notified by the
  * Spring container of a particular framework object through a callback-style method.
  * The actual method signature is determined by individual subinterfaces but should

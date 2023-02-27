@@ -29,18 +29,27 @@ import org.springframework.util.Assert;
  * parameter or a field. Exposed by {@link UnsatisfiedDependencyException}.
  * Also available as an argument for factory methods, reacting to the
  * requesting injection point for building a customized bean instance.
- *
+ * 注射点
  * @author Juergen Hoeller
  * @since 4.3
  * @see UnsatisfiedDependencyException#getInjectionPoint()
  * @see org.springframework.beans.factory.config.DependencyDescriptor
  */
 public class InjectionPoint {
-
+	
+	/**
+	 * 包装函数参数时用于保存所包装的函数参数，内含该参数的注解信息
+	 */
 	protected MethodParameter methodParameter;
-
+	
+	/**
+	 * 包装成员属性时用于保存所包装的成员属性
+	 */
 	protected Field field;
-
+	
+	/**
+	 * 包装成员属性时用于保存所包装的成员属性的注解信息
+	 */
 	private volatile Annotation[] fieldAnnotations;
 
 

@@ -170,6 +170,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
+	 * 注册 ("request", "session", "globalSession", "application")
 	 * Register web-specific scopes ("request", "session", "globalSession", "application")
 	 * with the given BeanFactory, as used by the WebApplicationContext.
 	 * @param beanFactory the BeanFactory to configure

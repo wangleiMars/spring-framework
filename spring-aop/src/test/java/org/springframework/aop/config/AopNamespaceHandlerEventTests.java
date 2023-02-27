@@ -62,7 +62,7 @@ public final class AopNamespaceHandlerEventTests {
 		this.reader = new XmlBeanDefinitionReader(this.beanFactory);
 		this.reader.setEventListener(this.eventListener);
 	}
-
+	
 	@Test
 	public void testPointcutEvents() throws Exception {
 		this.reader.loadBeanDefinitions(POINTCUT_EVENTS_CONTEXT);

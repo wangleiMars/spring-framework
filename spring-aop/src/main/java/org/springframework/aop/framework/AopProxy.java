@@ -30,7 +30,7 @@ package org.springframework.aop.framework;
 public interface AopProxy {
 
 	/**
-	 * Create a new proxy object.
+	 * Create a new proxy object. 创建代理对象
 	 * <p>Uses the AopProxy's default class loader (if necessary for proxy creation):
 	 * usually, the thread context class loader.
 	 * @return the new proxy object (never {@code null})
@@ -39,7 +39,7 @@ public interface AopProxy {
 	Object getProxy();
 
 	/**
-	 * Create a new proxy object.
+	 * Create a new proxy object. 创建代理对象
 	 * <p>Uses the given class loader (if necessary for proxy creation).
 	 * {@code null} will simply be passed down and thus lead to the low-level
 	 * proxy facility's default, which is usually different from the default chosen

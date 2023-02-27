@@ -98,18 +98,21 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates no dependency check at all.
+	 * 表示根本没有相关性检查。
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_NONE = 0;
 
 	/**
 	 * Constant that indicates dependency checking for object references.
+	 * 指示对象引用的依赖性检查。
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_OBJECTS = 1;
 
 	/**
 	 * Constant that indicates dependency checking for "simple" properties.
+	 * 表示“简单”属性的依赖性检查。
 	 * @see #setDependencyCheck
 	 * @see org.springframework.beans.BeanUtils#isSimpleProperty
 	 */
@@ -117,6 +120,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates dependency checking for all properties
+	 * 指示所有属性的依赖项检查的常量
 	 * (object references as well as "simple" properties).
 	 * @see #setDependencyCheck
 	 */
@@ -124,6 +128,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates the container should attempt to infer the
+	 * 指示容器应尝试推断
 	 * {@link #setDestroyMethodName destroy method name} for a bean as opposed to
 	 * explicit specification of a method name. The value {@value} is specifically
 	 * designed to include characters otherwise illegal in a method name, ensuring
@@ -136,54 +141,140 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 
 	private volatile Object beanClass;
-
+	/**￼
+	 *  bean的作用范围,对应bean属性scope￼
+	 */
 	private String scope = SCOPE_DEFAULT;
-
+	
+	/**
+	 * 是否是抽象，对应bean属性abstract
+	 */
 	private boolean abstractFlag = false;
-
+	
+	/**
+	 * 是否延迟加载,对应bean属性lazy-init￼
+	 */
 	private boolean lazyInit = false;
-
+	
+	/**
+	 * 自动注入模式,对应bean属性autowire
+	 */
 	private int autowireMode = AUTOWIRE_NO;
-
+	
+	/**
+	 * 依赖检查，Spring 3.0后弃用这个属性￼
+	 */
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
-
+	
+	/**
+	 * 用来表示一个bean的实例化依靠另一个bean先实例化,对应bean属性depend-on￼
+	 */
 	private String[] dependsOn;
-
+	
+	/**
+	 * autowire-candidate属性设置为false，这样容器在查找自动装配对象时，￼
+	 * 将不考虑该bean，即它不会被考虑作为其他bean自动装配的候选者，但是该bean本身还是可以使用自动装配来注入其他bean的。
+	 * 对应bean属性autowire-candidate
+	 */
 	private boolean autowireCandidate = true;
-
+	
+	/**
+	 * 自动装配时当出现多个bean候选者时，将作为首选者,对应bean属性primary
+	 */
 	private boolean primary = false;
-
+	
+	/**
+	 * 用于记录Qualifier，对应子元素qualifier @Qualifier
+	 */
 	private final Map<String, AutowireCandidateQualifier> qualifiers =
 			new LinkedHashMap<String, AutowireCandidateQualifier>(0);
-
+	
+	/**
+	 * 允许访问非公开的构造器和方法，程序设置
+	 */
 	private boolean nonPublicAccessAllowed = true;
-
+	
+	/**
+	 * 是否以一种宽松的模式解析构造函数，默认为true,￼
+	 * 如果为false,则在如下情况￼
+	 * interface ITest{}￼
+	 * class  ITestImpl implements ITest{};￼
+	 * class Main{￼
+	 * Main(ITest i){}￼
+	 * Main(ITestImpl i){}￼
+	 *  }￼
+	 *  抛出异常，因为Spring无法准确定位哪个构造函数￼
+	 *  程序设置￼
+	 */
 	private boolean lenientConstructorResolution = true;
-
+	
+	/**
+	 * 对应bean属性factory-bean，用法：￼
+	 * <bean id="instanceFactoryBean" class="example.chapter3.InstanceFactoryBean"/>￼
+	 * <bean id="currentTime"  factory-bean="instanceFactoryBean"  factory-method="￼createTime"/>￼
+	 */
 	private String factoryBeanName;
-
+	
+	/**
+	 * 对应bean属性factory-method￼
+	 */
 	private String factoryMethodName;
-
+	
+	/**
+	 * 记录构造函数注入属性，对应bean属性constructor-arg
+	 */
 	private ConstructorArgumentValues constructorArgumentValues;
-
+	
+	/**
+	 * 普通属性集合
+	 */
 	private MutablePropertyValues propertyValues;
-
+	
+	/**
+	 * 方法重写的持有者 ,记录lookup-method、replaced-method元素￼
+	 */
 	private MethodOverrides methodOverrides = new MethodOverrides();
-
+	
+	/**
+	 * 初始化方法，对应bean属性init-method￼
+	 */
 	private String initMethodName;
-
+	
+	/**
+	 * 销毁方法，对应bean属性destory-method￼
+	 */
 	private String destroyMethodName;
-
+	
+	/**
+	 * 是否执行init-method，程序设置
+	 */
 	private boolean enforceInitMethod = true;
-
+	
+	/**
+	 * 是否执行destory-method，程序设置￼
+	 */
 	private boolean enforceDestroyMethod = true;
-
+	
+	/**
+	 * 是否是用户定义的而不是应用程序本身定义的,创建AOP时候为true，程序设置￼
+	 */
 	private boolean synthetic = false;
-
+	
+	/**
+	 * 定义这个bean的应用 ，APPLICATION：用户，INFRASTRUCTURE：完全内部使用，与用户无关，SUPPORT：￼
+	 * 某些复杂配置的一部分￼
+	 * 程序设置￼
+	 */
 	private int role = BeanDefinition.ROLE_APPLICATION;
-
+	
+	/**
+	 * bean的描述信息￼
+	 */
 	private String description;
-
+	
+	/**
+	 * 这个bean定义的资源
+	 */
 	private Resource resource;
 
 
@@ -250,6 +341,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 
 	/**
+	 * 从给定的 bean 定义（大概是子对象）覆盖此 bean 定义中的设置（大概是从父子继承关系复制的父对象）。
 	 * Override settings in this bean definition (presumably a copied parent
 	 * from a parent-child inheritance relationship) from the given bean
 	 * definition (presumably the child).
@@ -317,6 +409,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 将提供的默认值应用于此 bean。
 	 * Apply the provided default values to this bean.
 	 * @param defaults the default settings to apply
 	 * @since 2.5
@@ -393,6 +486,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 确定包装 bean 的类，必要时从指定的类名解析它。
 	 * Determine the class of the wrapped bean, resolving it from a
 	 * specified class name if necessary. Will also reload a specified
 	 * Class from its name when called with the bean class already resolved.
@@ -445,7 +539,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return whether this a <b>Prototype</b>, with an independent instance
-	 * returned for each call.
+	 * returned for each call. 是否是原型,来自bean属性scope
 	 * @see #SCOPE_PROTOTYPE
 	 */
 	@Override
@@ -517,6 +611,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 返回已解析的自动装配代码（将 AUTOWIRE_AUTODETECT 解析为 AUTOWIRE_CONSTRUCTOR 或 AUTOWIRE_BY_TYPE）。
 	 * Return the resolved autowire code,
 	 * (resolving AUTOWIRE_AUTODETECT to AUTOWIRE_CONSTRUCTOR or AUTOWIRE_BY_TYPE).
 	 * @see #AUTOWIRE_AUTODETECT
@@ -964,6 +1059,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 验证这个 bean 定义。
 	 * Validate this bean definition.
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
@@ -980,6 +1076,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 验证并准备为此 bean 定义的方法覆盖。检查是否存在具有指定名称的方法。
 	 * Validate and prepare the method overrides defined for this bean.
 	 * Checks for existence of a method with the specified name.
 	 * @throws BeanDefinitionValidationException in case of validation failure
@@ -998,6 +1095,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 验证并准备给定的方法覆盖。检查是否存在具有指定名称的方法，如果未找到，则将其标记为未重载。
 	 * Validate and prepare the given method override.
 	 * Checks for existence of a method with the specified name,
 	 * marking it as not overloaded if none found.
@@ -1005,6 +1103,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	protected void prepareMethodOverride(MethodOverride mo) throws BeanDefinitionValidationException {
+		//获取对应类中对应方法名的个数
 		int count = ClassUtils.getMethodCountForName(getBeanClass(), mo.getMethodName());
 		if (count == 0) {
 			throw new BeanDefinitionValidationException(
@@ -1012,6 +1111,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 					"' on class [" + getBeanClassName() + "]");
 		}
 		else if (count == 1) {
+			//标记MethodOverride暂未被覆盖，避免参数类型检查的开销。
 			// Mark override as not overloaded, to avoid the overhead of arg type checking.
 			mo.setOverloaded(false);
 		}

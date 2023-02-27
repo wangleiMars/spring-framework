@@ -56,6 +56,7 @@ public interface PropertyAccessor {
 
 
 	/**
+	 * 属性是否可读
 	 * Determine whether the specified property is readable.
 	 * <p>Returns {@code false} if the property doesn't exist.
 	 * @param propertyName the property to check
@@ -65,6 +66,7 @@ public interface PropertyAccessor {
 	boolean isReadableProperty(String propertyName);
 
 	/**
+	 * 属性是否可写
 	 * Determine whether the specified property is writable.
 	 * <p>Returns {@code false} if the property doesn't exist.
 	 * @param propertyName the property to check
@@ -74,6 +76,7 @@ public interface PropertyAccessor {
 	boolean isWritableProperty(String propertyName);
 
 	/**
+	 * 获取属性类型
 	 * Determine the property type for the specified property,
 	 * either checking the property descriptor or checking the value
 	 * in case of an indexed or mapped element.
@@ -87,6 +90,7 @@ public interface PropertyAccessor {
 	Class<?> getPropertyType(String propertyName) throws BeansException;
 
 	/**
+	 * 获取属性类型描述符
 	 * Return a type descriptor for the specified property:
 	 * preferably from the read method, falling back to the write method.
 	 * @param propertyName the property to check
@@ -99,6 +103,7 @@ public interface PropertyAccessor {
 	TypeDescriptor getPropertyTypeDescriptor(String propertyName) throws BeansException;
 
 	/**
+	 * 获取属性值
 	 * Get the current value of the specified property.
 	 * @param propertyName the name of the property to get the value of
 	 * (may be a nested path and/or an indexed/mapped property)
@@ -111,6 +116,7 @@ public interface PropertyAccessor {
 	Object getPropertyValue(String propertyName) throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * Set the specified value as current property value.
 	 * @param propertyName the name of the property to set the value of
 	 * (may be a nested path and/or an indexed/mapped property)
@@ -123,6 +129,7 @@ public interface PropertyAccessor {
 	void setPropertyValue(String propertyName, Object value) throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * Set the specified value as current property value.
 	 * @param pv an object containing the new property value
 	 * @throws InvalidPropertyException if there is no such property or
@@ -133,6 +140,7 @@ public interface PropertyAccessor {
 	void setPropertyValue(PropertyValue pv) throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * Perform a batch update from a Map.
 	 * <p>Bulk updates from PropertyValues are more powerful: This method is
 	 * provided for convenience. Behavior will be identical to that of
@@ -149,6 +157,7 @@ public interface PropertyAccessor {
 	void setPropertyValues(Map<?, ?> map) throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * The preferred way to perform a batch update.
 	 * <p>Note that performing a batch update differs from performing a single update,
 	 * in that an implementation of this class will continue to update properties
@@ -170,6 +179,7 @@ public interface PropertyAccessor {
 	void setPropertyValues(PropertyValues pvs) throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * Perform a batch update with more control over behavior.
 	 * <p>Note that performing a batch update differs from performing a single update,
 	 * in that an implementation of this class will continue to update properties
@@ -192,6 +202,7 @@ public interface PropertyAccessor {
 			throws BeansException;
 
 	/**
+	 * 设置属性值
 	 * Perform a batch update with full control over behavior.
 	 * <p>Note that performing a batch update differs from performing a single update,
 	 * in that an implementation of this class will continue to update properties

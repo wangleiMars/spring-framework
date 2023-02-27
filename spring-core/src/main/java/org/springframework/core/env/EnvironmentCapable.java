@@ -31,7 +31,7 @@ package org.springframework.core.env;
  * getEnvironment()} and narrows the signature to return a {@link ConfigurableEnvironment}.
  * The effect is that an Environment object is 'read-only' until it is being accessed from
  * a ConfigurableApplicationContext, at which point it too may be configured.
- *
+ * 定义获取Environment方法。
  * @author Chris Beams
  * @since 3.1
  * @see Environment

@@ -1359,6 +1359,8 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	protected void applyStatementSettings(Statement stmt) throws SQLException {
 		int fetchSize = getFetchSize();
 		if (fetchSize != -1) {
+			// 最主要是为了减少网络交互次数设计的。访问ResultSet时，如果它每次只从服务器上读取一行数据，
+			// 则会产生大量的开销。setFetchSize的意思是当调用rs.next时，ResultSet会一次性从服务器上取得多少行数据回来
 			stmt.setFetchSize(fetchSize);
 		}
 		int maxRows = getMaxRows();

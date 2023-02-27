@@ -62,6 +62,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 
 	/**
 	 * Load the {@link Document} at the supplied {@link InputSource} using the standard JAXP-configured
+	 *  EntityResolver 项目本身就可以提供一个如何寻找DTD声明的方法，即由程序来实现寻找DTD声明的过程，比如我们将DTD文件放到项目中某处，在实现时直接将此文档读取并返回给SAX即可。
 	 * XML parser.
 	 */
 	@Override
@@ -101,8 +102,8 @@ public class DefaultDocumentLoader implements DocumentLoader {
 				catch (IllegalArgumentException ex) {
 					ParserConfigurationException pcex = new ParserConfigurationException(
 							"Unable to validate using XSD: Your JAXP provider [" + factory +
-							"] does not support XML Schema. Are you running on Java 1.4 with Apache Crimson? " +
-							"Upgrade to Apache Xerces (or Java 1.5) for full XSD support.");
+									"] does not support XML Schema. Are you running on Java 1.4 with Apache Crimson? " +
+									"Upgrade to Apache Xerces (or Java 1.5) for full XSD support.");
 					pcex.initCause(ex);
 					throw pcex;
 				}

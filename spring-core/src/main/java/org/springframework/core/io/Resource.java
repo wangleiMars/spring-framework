@@ -128,6 +128,7 @@ public interface Resource extends InputStreamSource {
 	String getFilename();
 
 	/**
+	 * 在错误处理中需要详细地打印出错的资源文件，因而Resource还提供了getDescription()方法用于在错误处理中的打印信息。
 	 * Return a description for this resource,
 	 * to be used for error output when working with the resource.
 	 * <p>Implementations are also encouraged to return this value

@@ -244,7 +244,7 @@ public abstract class AbstractMethodMessageHandler<T>
 						logger.debug("Could not resolve target class for bean with name '" + beanName + "'", ex);
 					}
 				}
-				if (beanType != null && isHandler(beanType)) {
+				if (beanType != null && isHandler(beanType)) {//如果是@controller注解代码
 					detectHandlerMethods(beanName);
 				}
 			}

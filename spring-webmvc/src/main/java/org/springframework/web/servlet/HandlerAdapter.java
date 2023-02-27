@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  * org.springframework.core.Ordered} interface to be able to specify a sorting
  * order (and thus a priority) for getting applied by the {@code DispatcherServlet}.
  * Non-Ordered instances get treated as lowest priority.
- *
+ * 根据类名来理解就是 处理器适配器，每一款 Handler 都有其唯一对应的 HandlerAdapter
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter
@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface HandlerAdapter {
 
 	/**
+	 * 判断当前 HandlerAdapter 是否支持给定的 Handler 实例
 	 * Given a handler instance, return whether or not this {@code HandlerAdapter}
 	 * can support it. Typical HandlerAdapters will base the decision on the handler
 	 * type. HandlerAdapters will usually only support one handler type each.
@@ -61,6 +62,7 @@ public interface HandlerAdapter {
 	boolean supports(Object handler);
 
 	/**
+	 * 使用给定的处理器处理请求
 	 * Use the given handler to handle this request.
 	 * The workflow that is required may vary widely.
 	 * @param request current HTTP request
@@ -75,6 +77,7 @@ public interface HandlerAdapter {
 	ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;
 
 	/**
+	 * 给定处理器的 lastModified 值
 	 * Same contract as for HttpServlet's {@code getLastModified} method.
 	 * Can simply return -1 if there's no support in the handler class.
 	 * @param request current HTTP request

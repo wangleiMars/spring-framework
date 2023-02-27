@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * A strategy interface for retrieving and saving FlashMap instances.
  * See {@link FlashMap} for a general overview of flash attributes.
- *
+ * 请求存储属性，可供其他请求使用。在使用重定向时候非常必要，例如Post/Redirect/Get模式。
+ * Flash attributes在重定向之前暂存（就像存在session中）以便重定向之后还能使用，并立即删除。
  * @author Rossen Stoyanchev
  * @since 3.1
  * @see FlashMap
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface FlashMapManager {
 
 	/**
+	 * 查询 检索 FlashMap
 	 * Find a FlashMap saved by a previous request that matches to the current
 	 * request, remove it from underlying storage, and also remove other
 	 * expired FlashMap instances.
@@ -43,6 +45,7 @@ public interface FlashMapManager {
 	FlashMap retrieveAndUpdate(HttpServletRequest request, HttpServletResponse response);
 
 	/**
+	 * 保存FlashMap
 	 * Save the given FlashMap, in some underlying storage and set the start
 	 * of its expiration period.
 	 * <p><strong>NOTE:</strong> Invoke this method prior to a redirect in order

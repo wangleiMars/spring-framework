@@ -43,6 +43,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 		extends AbstractDispatcherServletInitializer {
 
 	/**
+	 *
 	 * {@inheritDoc}
 	 * <p>This implementation creates an {@link AnnotationConfigWebApplicationContext},
 	 * providing it the annotated classes returned by {@link #getRootConfigClasses()}.
@@ -62,6 +63,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	}
 
 	/**
+	 *
 	 * {@inheritDoc}
 	 * <p>This implementation creates an {@link AnnotationConfigWebApplicationContext},
 	 * providing it the annotated classes returned by {@link #getServletConfigClasses()}.
@@ -77,6 +79,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	}
 
 	/**
+	 * Spring IoC容器配置 可以返回Spring的Java配置文件数组
 	 * Specify {@link org.springframework.context.annotation.Configuration @Configuration}
 	 * and/or {@link org.springframework.stereotype.Component @Component} classes to be
 	 * provided to the {@linkplain #createRootApplicationContext() root application context}.
@@ -86,6 +89,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	protected abstract Class<?>[] getRootConfigClasses();
 
 	/**
+	 * DispatcherServlet的URI映射关系配置 可以返回Spring的Java配置文件数组
 	 * Specify {@link org.springframework.context.annotation.Configuration @Configuration}
 	 * and/or {@link org.springframework.stereotype.Component @Component} classes to be
 	 * provided to the {@linkplain #createServletApplicationContext() dispatcher servlet

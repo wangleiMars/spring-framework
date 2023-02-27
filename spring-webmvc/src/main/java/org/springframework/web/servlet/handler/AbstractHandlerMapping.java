@@ -51,8 +51,8 @@ import org.springframework.web.util.UrlPathHelper;
  *
  * <p>Note: This base class does <i>not</i> support exposure of the
  * {@link #PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE}. Support for this attribute
- * is up to concrete subclasses, typically based on request URL mappings.
- *
+ * is up to  concrete subclasses, typically based on request URL mappings.
+ * 实现了 BeanNameAware 和 Ordered 接口，开始支持运行过程中获取 Bean 名称以及对排序；
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
  * @since 07.04.2003
@@ -350,10 +350,13 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	 */
 	@Override
 	public final HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+		//根据request获取对应的handler
 		Object handler = getHandlerInternal(request);
 		if (handler == null) {
+			//如果没有对应request的handler则使用默认的handler
 			handler = getDefaultHandler();
 		}
+		//如果也没有提供默认的handler则无法继续处理返回null￼
 		if (handler == null) {
 			return null;
 		}
@@ -362,8 +365,9 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 			String handlerName = (String) handler;
 			handler = getApplicationContext().getBean(handlerName);
 		}
-
+		// 添加拦截器
 		HandlerExecutionChain executionChain = getHandlerExecutionChain(handler, request);
+		// 跨域资源处理 请求会携带一个名为“Origin”的报头表明请求页面所在的站点
 		if (CorsUtils.isCorsRequest(request)) {
 			CorsConfiguration globalConfig = this.globalCorsConfigSource.getCorsConfiguration(request);
 			CorsConfiguration handlerConfig = getCorsConfiguration(handler, request);

@@ -38,6 +38,7 @@ import java.util.Locale;
 public interface MessageSource {
 
 	/**
+	 * 尝试解决消息
 	 * Try to resolve the message. Return default message if no message was found.
 	 * @param code the message code to look up, e.g. 'calculator.noRateSet'.
 	 * MessageSource users are encouraged to base message names on qualified class
@@ -55,6 +56,7 @@ public interface MessageSource {
 	String getMessage(String code, Object[] args, String defaultMessage, Locale locale);
 
 	/**
+	 * 尝试解决消息
 	 * Try to resolve the message. Treat as an error if the message can't be found.
 	 * @param code the message code to look up, e.g. 'calculator.noRateSet'.
 	 * MessageSource users are encouraged to base message names on qualified class
@@ -71,6 +73,7 @@ public interface MessageSource {
 	String getMessage(String code, Object[] args, Locale locale) throws NoSuchMessageException;
 
 	/**
+	 * 尝试使用 MessageSourceResolvable传入的参数中包含的所有属性来解析消息。
 	 * Try to resolve the message using all the attributes contained within the
 	 * {@code MessageSourceResolvable} argument that was passed in.
 	 * <p>NOTE: We must throw a {@code NoSuchMessageException} on this method

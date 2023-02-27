@@ -101,6 +101,7 @@ public abstract class MethodIntrospector {
 	}
 
 	/**
+	 * 选择调用方法
 	 * Select an invocable method on the target type: either the given method itself
 	 * if actually exposed on the target type, or otherwise a corresponding method
 	 * on one of the target type's interfaces or on the target type itself.

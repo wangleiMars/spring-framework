@@ -31,7 +31,7 @@ import org.springframework.util.StringValueResolver;
  * Serves as base class for
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * implementations.
- *
+ * 主要使用map作为alias的缓存，并对接口AliasRegistry进行实现。
  * @author Juergen Hoeller
  * @since 2.5.2
  */
@@ -46,21 +46,25 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
 		synchronized (this.aliasMap) {
+			//如果beanName与alias相同的话不记录alias,并删除对应的alias￼
 			if (alias.equals(name)) {
 				this.aliasMap.remove(alias);
 			}
 			else {
 				String registeredName = this.aliasMap.get(alias);
+				// 2. 别名已经注册，如果注册的名称不相同是否允许覆盖
 				if (registeredName != null) {
 					if (registeredName.equals(name)) {
 						// An existing alias - no need to re-register
 						return;
 					}
+					//如果alias不允许被覆盖则抛出异常
 					if (!allowAliasOverriding()) {
 						throw new IllegalStateException("Cannot register alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
 					}
 				}
+				// 3. 注册前检查是否出现了循环注册，如注册 (a, b) 时已经注册了 (b, a)
 				checkForAliasCircle(name, alias);
 				this.aliasMap.put(alias, name);
 			}
@@ -76,6 +80,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 *  a -> b -> c -> d -> e -> canonicalName，反向查找先找到最后一个 name
+	 *  然后一个一个判断是不是要查找的 alias
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -135,6 +141,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 解析 alias 和 name 中的占位符。
 	 * Resolve all alias target names and aliases registered in this
 	 * factory, applying the given StringValueResolver to them.
 	 * <p>The value resolver may for example resolve placeholders
@@ -144,16 +151,21 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	public void resolveAliases(StringValueResolver valueResolver) {
 		Assert.notNull(valueResolver, "StringValueResolver must not be null");
 		synchronized (this.aliasMap) {
+			// 因为遍历时要修改 Map 集合，所以 copy 了一个新集合用于遍历
 			Map<String, String> aliasCopy = new HashMap<String, String>(this.aliasMap);
 			for (String alias : aliasCopy.keySet()) {
 				String registeredName = aliasCopy.get(alias);
 				String resolvedAlias = valueResolver.resolveStringValue(alias);
 				String resolvedName = valueResolver.resolveStringValue(registeredName);
+				// 1. 不存在或 resolvedAlias=resolvedName 时直接干掉
 				if (resolvedAlias == null || resolvedName == null || resolvedAlias.equals(resolvedName)) {
 					this.aliasMap.remove(alias);
 				}
+				// 2. 别名解析后变化，两种情况：一是真实别名已经注册；二是没有注册。
+				//    真实别名已经注册又有两种情况：真实别名获取的 name 和要注册的 name 是否相等
 				else if (!resolvedAlias.equals(alias)) {
 					String existingName = this.aliasMap.get(resolvedAlias);
+					// 2.1 别名已存在且相等只需要将含有占位符的别名删除即可，否则抛出异常
 					if (existingName != null) {
 						if (existingName.equals(resolvedName)) {
 							// Pointing to existing alias - just remove placeholder
@@ -165,10 +177,12 @@ public class SimpleAliasRegistry implements AliasRegistry {
 								"') for name '" + resolvedName + "': It is already registered for name '" +
 								registeredName + "'.");
 					}
+					// 2.2 不存在，注册前同样需要检查循环依赖
 					checkForAliasCircle(resolvedName, resolvedAlias);
 					this.aliasMap.remove(alias);
 					this.aliasMap.put(resolvedAlias, resolvedName);
 				}
+				// 3. 真实名称解析后变化直接替换
 				else if (!registeredName.equals(resolvedName)) {
 					this.aliasMap.put(alias, resolvedName);
 				}
@@ -177,6 +191,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * // 检查循环依赖
 	 * Check whether the given name points back to the given alias as an alias
 	 * in the other direction already, catching a circular reference upfront
 	 * and throwing a corresponding IllegalStateException.
@@ -194,6 +209,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 获取一个 alias 的真实 name。
 	 * Determine the raw name, resolving aliases to canonical names.
 	 * @param name the user-specified name
 	 * @return the transformed name

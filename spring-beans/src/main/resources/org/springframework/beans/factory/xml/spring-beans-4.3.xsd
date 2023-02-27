@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
+<!--schema 元素定义 schema 的根元素-->
 <xsd:schema xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 		targetNamespace="http://www.springframework.org/schema/beans">
-
+	
+	<!-- import 元素用于向一个文档添加带有不同目标命名空间的多个 schema -->
+	<!-- http://www.w3school.com.cn/schema/el_import.asp -->
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
-
+	
+	<!-- annotation: 规定 schema 的注释 -->
+	<!-- http://www.w3school.com.cn/schema/el_annotation.asp -->
 	<xsd:annotation>
+		<!-- documentation: 定义 schema 中的文本注释; 该元素必须位于 annotation 元素内-->
+		<!-- http://www.w3school.com.cn/schema/el_documentation.asp -->
 		<xsd:documentation><![CDATA[
 	Spring XML Beans Schema, version 4.3
 	Authors: Juergen Hoeller, Rob Harrop, Mark Fisher, Chris Beams
@@ -38,7 +44,10 @@
 	as bean property types or constructor argument types.
 		]]></xsd:documentation>
 	</xsd:annotation>
-
+	
+	<!-- 类似OOP里的抽象基类, 抽取了公用的代码: id属性 -->
+	<!-- 最大的好处是建立了与外界的隔离层, 预留出了缓冲带来应对需求变更。-->
+	<!-- complexType:定义复杂类型。复杂类型的元素是包含其他元素和/或属性的 XML 元素。 -->
 	<!-- base types -->
 	<xsd:complexType name="identifiedType" abstract="true">
 		<xsd:annotation>
@@ -47,6 +56,7 @@
 	is the enclosing bean factory.
 			]]></xsd:documentation>
 		</xsd:annotation>
+		<!-- attribute : 定义一个属性 -->
 		<xsd:attribute name="id" type="xsd:string">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
@@ -56,7 +66,10 @@
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
-
+	
+	<!-- 顶层的根节点 <beans> -->
+	<!-- Top-level <beans> tag -->
+	<!-- element 元素定义一个XML元素 -->
 	<!-- Top-level <beans> tag -->
 	<xsd:element name="beans">
 		<xsd:annotation>

@@ -49,51 +49,96 @@ import org.springframework.util.Assert;
  */
 @SuppressWarnings("serial")
 public class RootBeanDefinition extends AbstractBeanDefinition {
-
+	
+	/**
+	 * BeanDefinitionHolder存储有Bean的名称、别名、BeanDefinition
+	 */
 	private BeanDefinitionHolder decoratedDefinition;
-
+	
+	/**
+	 *  是java反射包的接口，通过它可以查看Bean的注解信息
+	 */
 	private AnnotatedElement qualifiedElement;
-
+	
+	/**
+	 * 允许缓存
+	 */
 	boolean allowCaching = true;
-
+	
+	/**
+	 * 封装了java.lang.reflect.Type,提供了泛型相关的操作
+	 */
 	boolean isFactoryMethodUnique = false;
-
+	
+	/**
+	 * 此 bean 定义的目标类型
+	 */
 	volatile ResolvableType targetType;
 
 	/** Package-visible field for caching the determined Class of a given bean definition */
 	volatile Class<?> resolvedTargetType;
 
-	/** Package-visible field for caching the return type of a generically typed factory method */
+	/**
+	 * Package-visible field for caching the return type of a generically typed factory method
+	 * 缓存工厂方法的返回类型
+	 * */
 	volatile ResolvableType factoryMethodReturnType;
 
 	/** Common lock for the four constructor fields below */
 	final Object constructorArgumentLock = new Object();
 
-	/** Package-visible field for caching the resolved constructor or factory method */
+	/**
+	 * Package-visible field for caching the resolved constructor or factory method
+	 * 缓存已经解析的构造函数或是工厂方法，Executable是Method、Constructor类型的父类，
+	 * */
 	Object resolvedConstructorOrFactoryMethod;
 
-	/** Package-visible field that marks the constructor arguments as resolved */
+	/**
+	 * Package-visible field that marks the constructor arguments as resolved
+	 * 表明构造函数参数是否解析完毕
+	 * */
 	boolean constructorArgumentsResolved = false;
 
-	/** Package-visible field for caching fully resolved constructor arguments */
+	/**
+	 * Package-visible field for caching fully resolved constructor arguments
+	 * 缓存完全解析的构造函数参数
+	 * */
 	Object[] resolvedConstructorArguments;
 
-	/** Package-visible field for caching partly prepared constructor arguments */
+	/**
+	 * Package-visible field for caching partly prepared constructor arguments
+	 * 缓存待解析的构造函数参数，即还没有找到对应的实例，可以理解为还没有注入依赖的形参（我的理解）
+	 * */
 	Object[] preparedConstructorArguments;
 
 	/** Common lock for the two post-processing fields below */
 	final Object postProcessingLock = new Object();
 
-	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied */
+	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied
+	 * 表明是否被MergedBeanDefinitionPostProcessor处理过
+	 * */
 	boolean postProcessed = false;
 
-	/** Package-visible field that indicates a before-instantiation post-processor having kicked in */
+	/** Package-visible field that indicates a before-instantiation post-processor having kicked in
+	 * 在生成代理的时候会使用，表明是否已经生成代理
+	 * */
 	volatile Boolean beforeInstantiationResolved;
-
+	
+	/**
+	 * 以下三个属性是外部管理的方法集合（配置、初始化、銷毀），似乎可以缓存自动装配对象的值
+	 *
+	 * 	实际缓存的类型是Constructor、Field、Method类型，
+	 */
 	private Set<Member> externallyManagedConfigMembers;
-
+	
+	/**
+	 * InitializingBean中的init回调函数名——afterPropertiesSet会在这里记录，以便进行生命周期回调
+	 */
 	private Set<String> externallyManagedInitMethods;
-
+	
+	/**
+	 * DisposableBean的destroy回调函数名——destroy会在这里记录，以便进行生命周期回调
+	 */
 	private Set<String> externallyManagedDestroyMethods;
 
 
@@ -209,6 +254,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	/**
 	 * Register a target definition that is being decorated by this bean definition.
+	 * 注册一个被这个 bean 定义修饰的目标定义。
 	 */
 	public void setDecoratedDefinition(BeanDefinitionHolder decoratedDefinition) {
 		this.decoratedDefinition = decoratedDefinition;
@@ -286,6 +332,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	}
 
 	/**
+	 * 将已解析的工厂方法作为 Java Method 对象返回。
 	 * Return the resolved factory method as a Java Method object, if available.
 	 * @return the factory method, or {@code null} if not found or not resolved yet
 	 */
@@ -295,7 +342,11 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 			return (candidate instanceof Method ? (Method) candidate : null);
 		}
 	}
-
+	
+	/**
+	 * 注册外部管理配置成员
+	 * @param configMember
+	 */
 	public void registerExternallyManagedConfigMember(Member configMember) {
 		synchronized (this.postProcessingLock) {
 			if (this.externallyManagedConfigMembers == null) {
@@ -311,7 +362,11 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 					this.externallyManagedConfigMembers.contains(configMember));
 		}
 	}
-
+	
+	/**
+	 * 注册外部管理初始化方法
+	 * @param initMethod
+	 */
 	public void registerExternallyManagedInitMethod(String initMethod) {
 		synchronized (this.postProcessingLock) {
 			if (this.externallyManagedInitMethods == null) {

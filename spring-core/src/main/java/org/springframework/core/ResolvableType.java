@@ -232,7 +232,7 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Determine whether this {@code ResolvableType} is assignable from the
-	 * specified other type.
+	 * specified other type. 判断父类是指定类
 	 * @param other the type to be checked against (as a {@code Class})
 	 * @since 4.2
 	 * @see #isAssignableFrom(ResolvableType)

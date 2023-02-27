@@ -35,7 +35,7 @@ import org.springframework.core.io.Resource;
  * "/org/springframework/beans/factory/xml/spring-beans-2.0.dtd",
  * no matter whether specified as some local URL that includes "spring-beans"
  * in the DTD name or as "https://www.springframework.org/dtd/spring-beans-2.0.dtd".
- *
+ * .dtd资源解析器
  * @author Juergen Hoeller
  * @author Colin Sampaleanu
  * @since 04.06.2003

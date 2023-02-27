@@ -33,7 +33,7 @@ import org.springframework.web.util.WebUtils;
  * <p>Note: It is generally recommended to use individual callback interfaces for the actual
  * callbacks needed. This broad base class is primarily intended for use within the framework,
  * in case of {@link ServletContext} access etc typically being needed.
- *
+ * 实现了 ServletContextAware 接口，开始支持运行过程中获取 Servlet 容器；
  * @author Juergen Hoeller
  * @since 28.08.2003
  * @see SpringBeanAutowiringSupport

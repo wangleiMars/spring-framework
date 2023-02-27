@@ -35,7 +35,7 @@ import org.springframework.ui.context.ThemeSource;
  * {@link java.util.ResourceBundle} per theme. The theme name gets
  * interpreted as ResourceBundle basename, supporting a common
  * basename prefix for all themes.
- *
+ * 默认主题实现类 通过ResourceBundle资源的方式定义主题
  * @author Jean-Pierre Pawlak
  * @author Juergen Hoeller
  * @see #setBasenamePrefix

@@ -27,7 +27,7 @@ import org.springframework.core.MethodParameter;
  * <p><b>Note:</b> Since TypeConverter implementations are typically based on
  * {@link java.beans.PropertyEditor PropertyEditors} which aren't thread-safe,
  * TypeConverters themselves are <em>not</em> to be considered as thread-safe either.
- *
+ * 类型转换器
  * @author Juergen Hoeller
  * @since 2.0
  * @see SimpleTypeConverter
@@ -36,6 +36,7 @@ import org.springframework.core.MethodParameter;
 public interface TypeConverter {
 
 	/**
+	 * 必要时转换
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
 	 * method of the PropertyEditor class, or a Spring Converter in a ConversionService.
@@ -52,6 +53,7 @@ public interface TypeConverter {
 	<T> T convertIfNecessary(Object value, Class<T> requiredType) throws TypeMismatchException;
 
 	/**
+	 * 必要时转换
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
 	 * method of the PropertyEditor class, or a Spring Converter in a ConversionService.
@@ -71,6 +73,7 @@ public interface TypeConverter {
 			throws TypeMismatchException;
 
 	/**
+	 * 必要时转换
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
 	 * method of the PropertyEditor class, or a Spring Converter in a ConversionService.

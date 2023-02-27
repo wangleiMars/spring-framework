@@ -379,6 +379,10 @@ public class SingletonBeanFactoryLocator implements BeanFactoryLocator {
 				// of this method, but since we've already added the BeanFactory to our
 				// mappings, the next time it will be found and simply have its
 				// reference count incremented.
+				//现在初始化BeanFactory。这可能会导致重入调用
+				//但是由于我们已经将BeanFactory添加到
+				//映射，下次找到它时，只需
+				//引用计数递增。
 				try {
 					initializeDefinition(groupContext);
 				}
@@ -450,6 +454,7 @@ public class SingletonBeanFactoryLocator implements BeanFactoryLocator {
 	}
 
 	/**
+	 * 预实例化
 	 * Instantiate singletons and do any other normal initialization of the factory.
 	 * Subclasses that override {@link #createDefinition createDefinition()} should
 	 * also override this method.

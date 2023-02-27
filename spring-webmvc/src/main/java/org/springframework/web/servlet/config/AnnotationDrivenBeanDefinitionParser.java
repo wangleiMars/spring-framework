@@ -83,10 +83,11 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
  * {@code <annotation-driven/>} MVC namespace element.
  *
  * <p>This class registers the following {@link HandlerMapping}s:</p>
- * <ul>
+ * <ul> 将请求映射到带注解的控制器方法时，按照0排序，例如 @RequestMapping("/test")
  * <li>{@link RequestMappingHandlerMapping}
  * ordered at 0 for mapping requests to annotated controller methods.
  * <li>{@link BeanNameUrlHandlerMapping}
+ * 将URL路径映射到控制器bean名称时，按照2排序
  * ordered at 2 to map URL paths to controller bean names.
  * </ul>
  *
@@ -95,15 +96,16 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
  * {@code <resources>} MVC namespace elements.
  *
  * <p>This class registers the following {@link HandlerAdapter}s:
+ * 处理带有@controller注解的适配器（支持自定义的参数和返回值），对应于 RequestMappingHandlerMapping，例如 @RequestMapping("/test")
  * <ul>
  * <li>{@link RequestMappingHandlerAdapter}
- * for processing requests with annotated controller methods.
+ * for processing requests with annotated controller methods. 处理带有 HttpRequestHandlers 的适配器
  * <li>{@link HttpRequestHandlerAdapter}
  * for processing requests with {@link HttpRequestHandler}s.
  * <li>{@link SimpleControllerHandlerAdapter}
- * for processing requests with interface-based {@link Controller}s.
+ * for processing requests with interface-based {@link Controller}s. 处理基于 Controllers 接口的适配器
  * </ul>
- *
+ * 异常处理器
  * <p>This class registers the following {@link HandlerExceptionResolver}s:
  * <ul>
  * <li>{@link ExceptionHandlerExceptionResolver} for handling exceptions through
@@ -187,16 +189,17 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 
 		CompositeComponentDefinition compDefinition = new CompositeComponentDefinition(element.getTagName(), source);
 		context.pushContainingComponent(compDefinition);
-
+		// 用于判断一个请求的媒体类型MediaType列表。
 		RuntimeBeanReference contentNegotiationManager = getContentNegotiationManager(element, source, context);
-
+		// 定义 RequestMappingHandlerMapping
 		RootBeanDefinition handlerMappingDef = new RootBeanDefinition(RequestMappingHandlerMapping.class);
 		handlerMappingDef.setSource(source);
 		handlerMappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		// 排序值为 0
 		handlerMappingDef.getPropertyValues().add("order", 0);
 		handlerMappingDef.getPropertyValues().add("contentNegotiationManager", contentNegotiationManager);
 
-		if (element.hasAttribute("enable-matrix-variables")) {
+		if (element.hasAttribute("enable-matrix-variables")) {//将键值对写到路径中映射作为controller中的方法参数
 			boolean enableMatrixVariables = Boolean.parseBoolean(element.getAttribute("enable-matrix-variables"));
 			handlerMappingDef.getPropertyValues().add("removeSemicolonContent", !enableMatrixVariables);
 		}
@@ -206,13 +209,16 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		}
 
 		configurePathMatchingProperties(handlerMappingDef, element, context);
+		// 注册 RequestMappingHandlerMapping 类型对应的 RootBeanDefinition
 		readerContext.getRegistry().registerBeanDefinition(HANDLER_MAPPING_BEAN_NAME, handlerMappingDef);
-
+		//跨域处理器
 		RuntimeBeanReference corsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context, source);
 		handlerMappingDef.getPropertyValues().add("corsConfigurations", corsRef);
-
+		//类型转换处理器
 		RuntimeBeanReference conversionService = getConversionService(element, source, context);
+		// 校验处理器
 		RuntimeBeanReference validator = getValidator(element, source, context);
+		//消息解码处理器
 		RuntimeBeanReference messageCodesResolver = getMessageCodesResolver(element);
 
 		RootBeanDefinition bindingDef = new RootBeanDefinition(ConfigurableWebBindingInitializer.class);
@@ -222,24 +228,32 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		bindingDef.getPropertyValues().add("validator", validator);
 		bindingDef.getPropertyValues().add("messageCodesResolver", messageCodesResolver);
 
+		//消息转换器
 		ManagedList<?> messageConverters = getMessageConverters(element, source, context);
+		//参数解析器
 		ManagedList<?> argumentResolvers = getArgumentResolvers(element, context);
+		//返回值解析器
 		ManagedList<?> returnValueHandlers = getReturnValueHandlers(element, context);
+		//异步超时时间
 		String asyncTimeout = getAsyncTimeout(element);
+		// 异步处理器
 		RuntimeBeanReference asyncExecutor = getAsyncExecutor(element);
+		// 异步处理器拦截器
 		ManagedList<?> callableInterceptors = getCallableInterceptors(element, source, context);
+		//延迟的结果拦截器
 		ManagedList<?> deferredResultInterceptors = getDeferredResultInterceptors(element, source, context);
-
+		
+		// 定义 RequestMappingHandlerAdapter
 		RootBeanDefinition handlerAdapterDef = new RootBeanDefinition(RequestMappingHandlerAdapter.class);
 		handlerAdapterDef.setSource(source);
 		handlerAdapterDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		handlerAdapterDef.getPropertyValues().add("contentNegotiationManager", contentNegotiationManager);
 		handlerAdapterDef.getPropertyValues().add("webBindingInitializer", bindingDef);
 		handlerAdapterDef.getPropertyValues().add("messageConverters", messageConverters);
-		addRequestBodyAdvice(handlerAdapterDef);
-		addResponseBodyAdvice(handlerAdapterDef);
+		addRequestBodyAdvice(handlerAdapterDef);//增加请求JsonView请求处理器
+		addResponseBodyAdvice(handlerAdapterDef);//增加响应JsonView请求处理器
 
-		if (element.hasAttribute("ignore-default-model-on-redirect")) {
+		if (element.hasAttribute("ignore-default-model-on-redirect")) {//在重定向时是否忽略默认model的内容，默认为true
 			Boolean ignoreDefaultModel = Boolean.valueOf(element.getAttribute("ignore-default-model-on-redirect"));
 			handlerAdapterDef.getPropertyValues().add("ignoreDefaultModelOnRedirect", ignoreDefaultModel);
 		}
@@ -261,11 +275,13 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		if (asyncExecutor != null) {
 			handlerAdapterDef.getPropertyValues().add("taskExecutor", asyncExecutor);
 		}
-
+		
 		handlerAdapterDef.getPropertyValues().add("callableInterceptors", callableInterceptors);
 		handlerAdapterDef.getPropertyValues().add("deferredResultInterceptors", deferredResultInterceptors);
+		// 注册 RequestMappingHandlerAdapter 对应的 RootBeanDefinition
 		readerContext.getRegistry().registerBeanDefinition(HANDLER_ADAPTER_BEAN_NAME, handlerAdapterDef);
-
+		
+		//帮我们获取在RequestMappingHandlerAdapter类配置的HandlerMethodArgumentResolver
 		RootBeanDefinition uriContributorDef =
 				new RootBeanDefinition(CompositeUriComponentsContributorFactoryBean.class);
 		uriContributorDef.setSource(source);
@@ -273,22 +289,28 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		uriContributorDef.getPropertyValues().addPropertyValue("conversionService", conversionService);
 		String uriContributorName = MvcUriComponentsBuilder.MVC_URI_COMPONENTS_CONTRIBUTOR_BEAN_NAME;
 		readerContext.getRegistry().registerBeanDefinition(uriContributorName, uriContributorDef);
-
+		
+		//给request添加类型转换处理器
 		RootBeanDefinition csInterceptorDef = new RootBeanDefinition(ConversionServiceExposingInterceptor.class);
 		csInterceptorDef.setSource(source);
 		csInterceptorDef.getConstructorArgumentValues().addIndexedArgumentValue(0, conversionService);
+		
+		// handle拦截器的路径匹配器
 		RootBeanDefinition mappedInterceptorDef = new RootBeanDefinition(MappedInterceptor.class);
 		mappedInterceptorDef.setSource(source);
 		mappedInterceptorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		mappedInterceptorDef.getConstructorArgumentValues().addIndexedArgumentValue(0, (Object) null);
 		mappedInterceptorDef.getConstructorArgumentValues().addIndexedArgumentValue(1, csInterceptorDef);
 		String mappedInterceptorName = readerContext.registerWithGeneratedName(mappedInterceptorDef);
-
+		
+		// 定义 ExceptionHandlerExceptionResolver 异常处理器
 		RootBeanDefinition methodExceptionResolver = new RootBeanDefinition(ExceptionHandlerExceptionResolver.class);
 		methodExceptionResolver.setSource(source);
 		methodExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		methodExceptionResolver.getPropertyValues().add("contentNegotiationManager", contentNegotiationManager);
+		// 消息转换器
 		methodExceptionResolver.getPropertyValues().add("messageConverters", messageConverters);
+		// 排序值为 0
 		methodExceptionResolver.getPropertyValues().add("order", 0);
 		addResponseBodyAdvice(methodExceptionResolver);
 		if (argumentResolvers != null) {
@@ -298,19 +320,26 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 			methodExceptionResolver.getPropertyValues().add("customReturnValueHandlers", returnValueHandlers);
 		}
 		String methodExResolverName = readerContext.registerWithGeneratedName(methodExceptionResolver);
-
+		
+		// 定义 ResponseStatusExceptionResolver 返回状态异常解析器
 		RootBeanDefinition statusExceptionResolver = new RootBeanDefinition(ResponseStatusExceptionResolver.class);
 		statusExceptionResolver.setSource(source);
 		statusExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		// 排序值为 1
 		statusExceptionResolver.getPropertyValues().add("order", 1);
 		String statusExResolverName = readerContext.registerWithGeneratedName(statusExceptionResolver);
-
+		
+		
+		// 定义Spring中已知的异常解析器
 		RootBeanDefinition defaultExceptionResolver = new RootBeanDefinition(DefaultHandlerExceptionResolver.class);
 		defaultExceptionResolver.setSource(source);
 		defaultExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		// 排序值为 2
 		defaultExceptionResolver.getPropertyValues().add("order", 2);
 		String defaultExResolverName = readerContext.registerWithGeneratedName(defaultExceptionResolver);
-
+		
+		
+		// 通知xmlBeanComponentDefinition注册事件，默认是空实现
 		context.registerComponent(new BeanComponentDefinition(handlerMappingDef, HANDLER_MAPPING_BEAN_NAME));
 		context.registerComponent(new BeanComponentDefinition(handlerAdapterDef, HANDLER_ADAPTER_BEAN_NAME));
 		context.registerComponent(new BeanComponentDefinition(uriContributorDef, uriContributorName));
@@ -320,6 +349,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		context.registerComponent(new BeanComponentDefinition(defaultExceptionResolver, defaultExResolverName));
 
 		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// 注册默认的一些组件，例如 BeanNameUrlHandlerMapping、HttpRequestHandlerAdapter、
+		// SimpleControllerHandlerAdapter 和 HandlerMappingIntrospector
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
 		context.popAndRegisterContainingComponent();

@@ -45,7 +45,7 @@ public abstract class AbstractCachingViewResolver extends WebApplicationObjectSu
 	/** Default maximum number of entries for the view cache: 1024 */
 	public static final int DEFAULT_CACHE_LIMIT = 1024;
 
-	/** Dummy marker object for unresolved views in the cache Maps */
+	/** Dummy marker object for unresolved views in the cache Maps 缓存映射中未解析视图的虚拟标记对象 */
 	private static final View UNRESOLVED_VIEW = new View() {
 		@Override
 		public String getContentType() {
@@ -143,9 +143,11 @@ public abstract class AbstractCachingViewResolver extends WebApplicationObjectSu
 	@Override
 	public View resolveViewName(String viewName, Locale locale) throws Exception {
 		if (!isCache()) {
+			//不存在缓存的情况下直接创建视图
 			return createView(viewName, locale);
 		}
 		else {
+			// //直接从缓存中提取￼
 			Object cacheKey = getCacheKey(viewName, locale);
 			View view = this.viewAccessCache.get(cacheKey);
 			if (view == null) {

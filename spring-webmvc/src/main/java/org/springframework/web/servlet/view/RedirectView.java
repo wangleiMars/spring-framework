@@ -73,7 +73,7 @@ import org.springframework.web.util.WebUtils;
  *
  * <p><b>NOTE when using this redirect view in a Portlet environment:</b> Make sure
  * that your controller respects the Portlet {@code sendRedirect} constraints.
- *
+ * 重定向vim
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Colin Sampaleanu

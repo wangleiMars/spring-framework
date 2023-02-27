@@ -35,7 +35,7 @@ import org.springframework.web.util.UrlPathHelper;
  * as well as the file extension of the URI, and returns the result as the
  * view name with the configured {@link #setPrefix prefix} and a
  * {@link #setSuffix suffix} added as appropriate.
- *
+ * View对象或逻辑视图名称，并且在该方法中没有直接往response的输出流里面写数据的时候，Spring就会采用约定好的方式提供一个逻辑视图名称
  * <p>The stripping of the leading slash and file extension can be disabled
  * using the {@link #setStripLeadingSlash stripLeadingSlash} and
  * {@link #setStripExtension stripExtension} properties, respectively.
@@ -56,18 +56,35 @@ import org.springframework.web.util.UrlPathHelper;
 public class DefaultRequestToViewNameTranslator implements RequestToViewNameTranslator {
 
 	private static final String SLASH = "/";
-
-
+	
+	/**
+	 * 前缀，表示约定好的视图名称需要加上的前缀，默认是空串。
+	 */
 	private String prefix = "";
-
+	
+	/**
+	 * 后缀，表示约定好的视图名称需要加上的后缀，默认是空串。
+	 */
 	private String suffix = "";
-
+	
+	/**
+	 * 分隔符，默认是斜杠“/”
+	 */
 	private String separator = SLASH;
-
+	
+	/**
+	 * 如果首字符是分隔符，是否要去除，默认是true。
+	 */
 	private boolean stripLeadingSlash = true;
-
+	
+	/**
+	 * 如果最后一个字符是分隔符，是否要去除，默认是true。
+	 */
 	private boolean stripTrailingSlash = true;
-
+	
+	/**
+	 * 如果请求路径包含扩展名是否要去除，默认是true。
+	 */
 	private boolean stripExtension = true;
 
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();

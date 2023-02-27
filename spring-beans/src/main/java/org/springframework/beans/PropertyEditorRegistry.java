@@ -24,7 +24,7 @@ import java.beans.PropertyEditor;
  *
  * <p>Extended by {@link BeanWrapper}; implemented by {@link BeanWrapperImpl}
  * and {@link org.springframework.validation.DataBinder}.
- *
+ * 自定义属性编辑器注册接口
  * @author Juergen Hoeller
  * @since 1.2.6
  * @see java.beans.PropertyEditor
@@ -35,6 +35,7 @@ import java.beans.PropertyEditor;
 public interface PropertyEditorRegistry {
 
 	/**
+	 * 注册属性编辑器
 	 * Register the given custom property editor for all properties of the given type.
 	 * @param requiredType the type of the property
 	 * @param propertyEditor the editor to register

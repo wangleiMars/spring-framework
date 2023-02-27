@@ -49,7 +49,7 @@ import org.springframework.util.CollectionUtils;
  *
  * <p>The pattern for the mapping files can be overridden using the
  * {@link #PluggableSchemaResolver(ClassLoader, String)} constructor.
- *
+ * 可插拔的Schema解析器
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0

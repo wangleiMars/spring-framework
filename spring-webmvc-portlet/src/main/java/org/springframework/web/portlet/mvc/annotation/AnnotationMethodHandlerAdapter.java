@@ -112,7 +112,10 @@ import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
  * <p>This adapter can be customized through various bean properties.
  * A common use case is to apply shared binder initialization logic through
  * a custom {@link #setWebBindingInitializer WebBindingInitializer}.
- *
+ * 基于注解的实现，它需要结合注解方法映射和注解方法处理器协同工作。
+ * 它通过解析声明在注解控制器的请求映射信息来解析相应的处理器方法来处理当前的HTTP请求。
+ * 在处理的过程中，它通过反射来发现探测处理器方法的参数，调用处理器方法，并且映射返回值到模型和控制器对象，
+ * 最后返回模型和控制器对象给作为主控制器的派遣器Servlet。
  * @author Juergen Hoeller
  * @author Arjen Poutsma
  * @since 2.5

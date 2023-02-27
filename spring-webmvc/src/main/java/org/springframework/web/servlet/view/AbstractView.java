@@ -298,9 +298,10 @@ public abstract class AbstractView extends WebApplicationObjectSupport implement
 			logger.trace("Rendering view with name '" + this.beanName + "' with model " + model +
 				" and static attributes " + this.staticAttributes);
 		}
-
+		// 用到的属性放入request
 		Map<String, Object> mergedModel = createMergedOutputModel(model, request, response);
-		prepareResponse(request, response);
+		prepareResponse(request, response);//处理下载响应contexttype
+		// 处理页面调整
 		renderMergedOutputModel(mergedModel, getRequestToExpose(request), response);
 	}
 

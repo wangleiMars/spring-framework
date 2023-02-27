@@ -28,7 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
  * Supports handlers that implement the {@link LastModified} interface.
  *
  * <p>This is an SPI class, not used directly by application code.
- *
+ * 这个实现类将HTTP请求适配到一个控制器的实现进行处理。这里控制器的实现是一个简单的控制器接口的实现。
+ * 简单控制器处理器适配器被设计成一个框架类的实现，不需要被改写，客户化的业务逻辑通常是在控制器接口的实现类中实现的
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see org.springframework.web.servlet.DispatcherServlet

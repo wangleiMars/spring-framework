@@ -44,10 +44,12 @@ import org.springframework.core.AliasRegistry;
  * @see org.springframework.context.support.GenericApplicationContext
  * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
  * @see PropertiesBeanDefinitionReader
+ * 定义对BeanDefinition的各种增删改操作。
  */
 public interface BeanDefinitionRegistry extends AliasRegistry {
 
 	/**
+	 * BeanDefinition 的注册、删除、获取
 	 * Register a new bean definition with this registry.
 	 * Must support RootBeanDefinition and ChildBeanDefinition.
 	 * @param beanName the name of the bean instance to register
@@ -78,6 +80,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
 	/**
+	 * 是否包含这个beanname
 	 * Check if this registry contains a bean definition with the given name.
 	 * @param beanName the name of the bean to look for
 	 * @return if this registry contains a bean definition with the given name
@@ -98,6 +101,7 @@ public interface BeanDefinitionRegistry extends AliasRegistry {
 	int getBeanDefinitionCount();
 
 	/**
+	 * BeanFactory 是否注册了这个 bean，最简单的办法是 isAlias(beanName) || containsBeanDefinition(beanName)
 	 * Determine whether the given bean name is already in use within this registry,
 	 * i.e. whether there is a local bean or alias registered under this name.
 	 * @param beanName the name to check

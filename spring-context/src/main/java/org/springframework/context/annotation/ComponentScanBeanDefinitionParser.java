@@ -106,6 +106,7 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 		}
 
 		try {
+			// 设置名称生成器
 			parseBeanNameGenerator(element, scanner);
 		}
 		catch (Exception ex) {
@@ -113,13 +114,13 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 		}
 
 		try {
-			parseScope(element, scanner);
+			parseScope(element, scanner);// 设置scope属性
 		}
 		catch (Exception ex) {
 			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element), ex.getCause());
 		}
 
-		parseTypeFilters(element, scanner, parserContext);
+		parseTypeFilters(element, scanner, parserContext);//设置过滤器
 
 		return scanner;
 	}

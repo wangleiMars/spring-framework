@@ -52,6 +52,7 @@ public abstract class BeanFactoryUtils {
 
 	/**
 	 * Return whether the given name is a factory dereference
+	 * 返回给定名称是否为父工厂的引用
 	 * (beginning with the factory dereference prefix).
 	 * @param name the name of the bean
 	 * @return whether the given name is a factory dereference
@@ -190,7 +191,7 @@ public abstract class BeanFactoryUtils {
 	 * of each FactoryBean).
 	 * @param lbf the bean factory
 	 * @param includeNonSingletons whether to include prototype or scoped beans too
-	 * or just singletons (also applies to FactoryBeans)
+	 * or just singletons (also applies to FactoryBeans) 是否也包括原型或作用域bean
 	 * @param allowEagerInit whether to initialize <i>lazy-init singletons</i> and
 	 * <i>objects created by FactoryBeans</i> (or by factory methods with a
 	 * "factory-bean" reference) for the type check. Note that FactoryBeans need to be
@@ -255,6 +256,9 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回给定类型或子类型的所有bean，并拾取中定义的bean
+	 * 如果当前bean工厂是HierarchicalBeanFactory，则为祖先bean工厂。
+	 * 返回的Map将仅包含此类型的bean。
 	 * Return all beans of the given type or subtypes, also picking up beans defined in
 	 * ancestor bean factories if the current bean factory is a HierarchicalBeanFactory.
 	 * The returned Map will only contain beans of this type.
@@ -269,9 +273,10 @@ public abstract class BeanFactoryUtils {
 	 * 'replacing' beans by explicitly choosing the same bean name in a child factory;
 	 * the bean in the ancestor factory won't be visible then, not even for by-type lookups.
 	 * @param lbf the bean factory
-	 * @param type type of bean to match
+	 * @param type type of bean to match 类型
 	 * @param includeNonSingletons whether to include prototype or scoped beans too
 	 * or just singletons (also applies to FactoryBeans)
+	 * 是否也包括原型或作用域bean或者仅仅是单体（也适用于FactoryBean）
 	 * @param allowEagerInit whether to initialize <i>lazy-init singletons</i> and
 	 * <i>objects created by FactoryBeans</i> (or by factory methods with a
 	 * "factory-bean" reference) for the type check. Note that FactoryBeans need to be

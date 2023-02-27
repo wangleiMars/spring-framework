@@ -54,23 +54,29 @@ public class HandlerMethod {
 
 	/** Logger that is available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	//bean名称，调试的时候看到是字符串控制器名称（首字母小写）
 	private final Object bean;
 
 	private final BeanFactory beanFactory;
 
 	private final Class<?> beanType;
-
+	
+	//控制器方法
 	private final Method method;
-
+	
+	//桥接方法，如果method是原生的，这个属性就是method
 	private final Method bridgedMethod;
-
+	
+	//封装方法参数实例
 	private final MethodParameter[] parameters;
-
+	
+	//Http状态码
 	private HttpStatus responseStatus;
-
+	
+	//ResponseStatus注解的reason值
 	private String responseStatusReason;
-
+	
+	//使用createWithResolvedBean方法创建的HttpMethod方法对象
 	private HandlerMethod resolvedFromHandlerMethod;
 
 

@@ -50,7 +50,9 @@ import org.springframework.web.util.WebUtils;
  * mechanisms such as the "Spring Session" project. This {@code LocaleResolver}
  * will simply evaluate and modify corresponding {@code HttpSession} attributes
  * against the current {@code HttpServletRequest}.
- *
+ * 基于session的国际化配置
+ *  它通过检验用户会话中预置的属性来解析区域。最常用的是根据用户本次会话过程中的语言设定决定语言种类（例如，用户登录时选择语言种类，
+ *  则此次登录周期内统一使用此语言设定），如果该会话属性不存在，它会根据accept-language HTTP头部确定默认区域。
  * @author Juergen Hoeller
  * @since 27.02.2003
  * @see #setDefaultLocale

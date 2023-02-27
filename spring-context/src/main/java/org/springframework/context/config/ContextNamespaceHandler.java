@@ -32,12 +32,20 @@ public class ContextNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
+		//加载配置文件
 		registerBeanDefinitionParser("property-placeholder", new PropertyPlaceholderBeanDefinitionParser());
+		// bean的属性进行替换。下面是一个简单的demo:
 		registerBeanDefinitionParser("property-override", new PropertyOverrideBeanDefinitionParser());
+		/**
+		 * 1）context:annotation-config可以理解为注解解析器，解析诸如@autowired,@Resource之类的注解。前提是注解作用的类已经被注册到spring容器里。
+		 * 2）context:component-scan除了包含context:annotation-config所有的功能之外还可以自动扫描和注册base-package下有诸如@component之类注解的类，并将其作为bean注册到spring容器里。
+		 * */
 		registerBeanDefinitionParser("annotation-config", new AnnotationConfigBeanDefinitionParser());
 		registerBeanDefinitionParser("component-scan", new ComponentScanBeanDefinitionParser());
+		// 静态aop
 		registerBeanDefinitionParser("load-time-weaver", new LoadTimeWeaverBeanDefinitionParser());
 		registerBeanDefinitionParser("spring-configured", new SpringConfiguredBeanDefinitionParser());
+		//<!-- pring通过annotation注解注册MBean到JMX实现监控java运行状态 -->
 		registerBeanDefinitionParser("mbean-export", new MBeanExportBeanDefinitionParser());
 		registerBeanDefinitionParser("mbean-server", new MBeanServerBeanDefinitionParser());
 	}

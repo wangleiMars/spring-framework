@@ -153,6 +153,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String[] getDependsOn();
 
 	/**
+	 * 设置此bean是否是自动连接到其他bean的候选。
 	 * Set whether this bean is a candidate for getting autowired into some other bean.
 	 * <p>Note that this flag is designed to only affect type-based autowiring.
 	 * It does not affect explicit references by name, which will get resolved even
@@ -162,6 +163,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	void setAutowireCandidate(boolean autowireCandidate);
 
 	/**
+	 * 返回此bean是否是自动连接到其他bean的候选。
 	 * Return whether this bean is a candidate for getting autowired into some other bean.
 	 */
 	boolean isAutowireCandidate();
@@ -207,6 +209,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 	/**
 	 * Return the constructor argument values for this bean.
+	 * 返回此bean的构造函数参数值。
 	 * <p>The returned instance can be modified during bean factory post-processing.
 	 * @return the ConstructorArgumentValues object (never {@code null})
 	 */
@@ -258,13 +261,14 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getDescription();
 
 	/**
-	 * Return a description of the resource that this bean definition
+	 * Return a description of the resource that this bean definition 返回此bean定义的资源的描述
 	 * came from (for the purpose of showing context in case of errors).
 	 */
 	String getResourceDescription();
 
 	/**
 	 * Return the originating BeanDefinition, or {@code null} if none.
+	 * 返回原始BeanDefinition，如果没有，则返回｛@code null｝
 	 * Allows for retrieving the decorated bean definition, if any.
 	 * <p>Note that this method returns the immediate originator. Iterate through the
 	 * originator chain to find the original BeanDefinition as defined by the user.

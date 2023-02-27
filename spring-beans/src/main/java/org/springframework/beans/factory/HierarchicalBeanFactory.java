@@ -28,10 +28,12 @@ package org.springframework.beans.factory;
  * @author Juergen Hoeller
  * @since 07.07.2003
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#setParentBeanFactory
+ * 继承BeanFactory，也就是在BeanFactory定义的功能的基础上增加了对parentFactory的支持。
  */
 public interface HierarchicalBeanFactory extends BeanFactory {
 
 	/**
+	 * 获取父工厂
 	 * Return the parent bean factory, or {@code null} if there is none.
 	 */
 	BeanFactory getParentBeanFactory();
@@ -39,6 +41,7 @@ public interface HierarchicalBeanFactory extends BeanFactory {
 	/**
 	 * Return whether the local bean factory contains a bean of the given name,
 	 * ignoring beans defined in ancestor contexts.
+	 * 在当前工厂(不向上查找父工厂)中获取指定的 bean
 	 * <p>This is an alternative to {@code containsBean}, ignoring a bean
 	 * of the given name from an ancestor bean factory.
 	 * @param name the name of the bean to query

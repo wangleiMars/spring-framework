@@ -43,7 +43,7 @@ import org.springframework.util.StringUtils;
  * {@link #setAlwaysUseFullPath "alwaysUseFullPath"} property for details.
  * For details on the pattern options, see the
  * {@link org.springframework.util.AntPathMatcher} javadoc.
- *
+ *  HandlerMapping 接口的实现，该接口将 url 映射到名称以斜杠 (“/”) 开头的 Bean，类似于 Struts 将 url 映射到操作名称的方式；
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see SimpleUrlHandlerMapping

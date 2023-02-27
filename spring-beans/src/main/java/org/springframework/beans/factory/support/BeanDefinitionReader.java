@@ -35,11 +35,13 @@ import org.springframework.core.io.ResourceLoader;
  * @author Juergen Hoeller
  * @since 1.1
  * @see org.springframework.core.io.Resource
+ * 主要定义资源文件读取并转换为BeanDefinition的各个功能。
  */
 public interface BeanDefinitionReader {
 
 	/**
 	 * Return the bean factory to register the bean definitions with.
+	 * 返回要注册bean定义的bean工厂。
 	 * <p>The factory is exposed through the BeanDefinitionRegistry interface,
 	 * encapsulating the methods that are relevant for bean definition handling.
 	 */
@@ -74,6 +76,7 @@ public interface BeanDefinitionReader {
 
 	/**
 	 * Return the BeanNameGenerator to use for anonymous beans
+	 * 返回用于匿名bean的BeanNameGenerator
 	 * (without explicit bean name specified).
 	 */
 	BeanNameGenerator getBeanNameGenerator();
@@ -81,6 +84,7 @@ public interface BeanDefinitionReader {
 
 	/**
 	 * Load bean definitions from the specified resource.
+	 * 从指定的资源加载bean定义。
 	 * @param resource the resource descriptor
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors

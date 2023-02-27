@@ -30,7 +30,7 @@ import org.springframework.util.ObjectUtils;
 /**
  * Handler execution chain, consisting of handler object and any handler interceptors.
  * Returned by HandlerMapping's {@link HandlerMapping#getHandler} method.
- *
+ *  按照类名来理解即 处理器执行链 。它是由处理器（Handler）和所有的处理器拦截器（HandlerInterceptor）组成，并且由 HandlerMapping 的 HandlerMapping 的 getHandler 方法返回。
  * @author Juergen Hoeller
  * @since 20.06.2003
  * @see HandlerInterceptor
@@ -38,13 +38,25 @@ import org.springframework.util.ObjectUtils;
 public class HandlerExecutionChain {
 
 	private static final Log logger = LogFactory.getLog(HandlerExecutionChain.class);
-
+	
+	/**
+	 * 处理器
+	 */
 	private final Object handler;
-
+	
+	/**
+	 * 拦截器
+	 */
 	private HandlerInterceptor[] interceptors;
-
+	
+	/**
+	 * 拦截器列表
+	 */
 	private List<HandlerInterceptor> interceptorList;
-
+	
+	/**
+	 * 拦截器运行的下标
+	 */
 	private int interceptorIndex = -1;
 
 

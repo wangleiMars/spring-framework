@@ -19,6 +19,7 @@ package org.springframework.web.servlet.view;
 import org.springframework.util.ClassUtils;
 
 /**
+ * 当Controller将请求处理结果放入到ModelAndView中以后， DispatcherServlet会根据ModelAndView选择合适的视图进行渲染
  * Convenient subclass of {@link UrlBasedViewResolver} that supports
  * {@link InternalResourceView} (i.e. Servlets and JSPs) and subclasses
  * such as {@link JstlView}.
@@ -35,6 +36,9 @@ import org.springframework.util.ClassUtils;
  * <p><b>Note:</b> When chaining ViewResolvers, an InternalResourceViewResolver
  * always needs to be last, as it will attempt to resolve any view name,
  * no matter whether the underlying resource actually exists.
+ *
+ * <property name="prefix" value="/WEB-INF/views/"/>￼
+ * <property name="suffix" value=".jsp"/>￼
  *
  * @author Juergen Hoeller
  * @since 17.02.2003

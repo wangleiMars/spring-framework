@@ -45,7 +45,8 @@ import org.springframework.web.util.WebUtils;
  * {@code #setLocale(Context)} on the resolver, e.g. responding to a locale change
  * request. As a more convenient alternative, consider using
  * {@link org.springframework.web.servlet.support.RequestContext#changeLocale}.
- *
+ *  基于Cookie的国际化配置。
+ *  CookieLocaleResolver用于通过浏览器的cookie设置取得Locale对象。这种策略在应用程序不支持会话或者状态必须保存在客户端时有用
  * @author Juergen Hoeller
  * @author Jean-Pierre Pawlak
  * @since 27.02.2003

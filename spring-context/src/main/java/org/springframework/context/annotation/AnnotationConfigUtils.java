@@ -115,7 +115,7 @@ public class AnnotationConfigUtils {
 	 * The bean name of the internally managed EventListenerFactory.
 	 */
 	public static final String EVENT_LISTENER_FACTORY_BEAN_NAME =
-			"org.springframework.context.event.internalEventListenerFactory";
+			"`org.springframework.context.event.internalEventListenerFactory`";
 
 	private static final boolean jsr250Present =
 			ClassUtils.isPresent("javax.annotation.Resource", AnnotationConfigUtils.class.getClassLoader());
